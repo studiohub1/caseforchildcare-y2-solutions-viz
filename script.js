@@ -72,16 +72,16 @@ function Viz() {
       .padAngle(circlePadding)
       .cornerRadius(18);
 
-    // TODO: fix text rotation
-    const petalTextAngle =
-      radiansToDegrees(circleScale(index)) < 180
-        ? radiansToDegrees(circleScale(index) + circleScale.bandwidth() / 2) -
-          90
-        : radiansToDegrees(circleScale(index) + circleScale.bandwidth() / 2) -
-          90;
-
-    const petalTextTranslateX =
+    let petalTextAngle =
+      radiansToDegrees(circleScale(index) + circleScale.bandwidth() / 2) - 90;
+    let petalTextTranslateX =
       innerRadius + (outerRadiusPetals - innerRadius) / 2;
+
+    // flip text if it's on the lower half of the circle
+    if (radiansToDegrees(circleScale(index)) > 180) {
+      petalTextAngle += 180;
+      petalTextTranslateX *= -1;
+    }
 
     return html`
       <g

@@ -25,8 +25,9 @@
 }
 
 /***** petals ******/
-#solution-viz .petal .text {
+#solution-viz .petal text {
   font-size: 14px;
+  z-index: 10;
 }
 #solution-viz .petal {
   cursor: pointer;
