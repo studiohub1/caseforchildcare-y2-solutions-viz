@@ -35,6 +35,7 @@ function Viz() {
 
   const [data, setData] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [hoveredItem, setHoveredItem] = useState(null);
 
   // load data
   useEffect(() => {
@@ -48,6 +49,7 @@ function Viz() {
         new Set(loadedData.map((d) => d["Category"]))
       );
       setCategories(uniqueCategories);
+      setHoveredItem(loadedData[0]);
     });
   }, []);
 
@@ -84,9 +86,15 @@ function Viz() {
 
     return html`
       <g
-        class="petal"
+        class="petal ${hoveredItem
+          ? hoveredItem === item
+            ? ""
+            : "petal__not_hovered"
+          : ""}"
         data-category="${item["Category"]}"
         data-solution="${item["Solution abbreviation"]}"
+        onmouseover="${() => setHoveredItem(item)}"
+        onmouseout="${() => setHoveredItem(null)}"
       >
         <path d="${petalArc()}" />
         <text
@@ -140,22 +148,63 @@ function Viz() {
     `;
   });
 
+  const innerContentDefault = html`
+    <g class="innerContent innerContent__default" text-anchor="middle">
+      <g class="title" transform="translate(0,-40)">
+        <text>Childcare</text>
+        <text dy="60px">Solutions</text>
+      </g>
+      <g class="subtitle" transform="translate(0,60)">
+        <text>Hover on a solution to preview,</text>
+        <text dy="24px">click in to see details and resources.</text>
+      </g>
+    </g>
+  `;
+
+  function innerContentHovered() {
+    return html`
+      <g
+        class="innerContent innerContent__hovered"
+        transform="translate(-${innerRadius - 20},-${innerRadius - 20})"
+      >
+        <foreignObject
+          x="0"
+          y="0"
+          width="${innerRadius * 2 - 40}"
+          height="${innerRadius * 2 - 40}"
+        >
+          <div class="innerContent" xmlns="http://www.w3.org/1999/xhtml">
+            <img
+              src="./illustrations/${hoveredItem["Category"]}.svg"
+              alt="${hoveredItem["Category"]}"
+              class="category-image"
+            />
+            <div
+              class="category-pill"
+              data-category="${hoveredItem["Category"]}"
+            >
+              ${hoveredItem["Category"]}
+            </div>
+            <p class="solution-title">
+              ${hoveredItem["Solution abbreviation"]}
+            </p>
+            <p class="solution-subtitle">${hoveredItem["Solution"]}</p>
+          </div>
+        </foreignObject>
+      </g>
+    `;
+  }
+
+  const innerContent = hoveredItem
+    ? innerContentHovered()
+    : innerContentDefault;
+
   return html`
     <svg viewBox="0 0 ${width} ${height}">
       <g transform="translate(${width / 2}, ${height / 2})">
-        <g class="centerText" text-anchor="middle">
-          <g class="title" transform="translate(0,-40)">
-            <text>Childcare</text>
-            <text dy="60px">Solutions</text>
-          </g>
-          <g class="subtitle" transform="translate(0,60)">
-            <text>Hover on a solution to preview,</text>
-            <text dy="24px">click in to see details and resources.</text>
-          </g>
-        </g>
-        //
         <g class="categories">${categoryGroups}</g>
         <g class="petals">${petalGroups}</g>
+        <g class="innerContent">${innerContent}</g>
       </g>
     </svg>
   `;
