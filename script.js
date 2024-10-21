@@ -10,15 +10,30 @@ function radiansToDegrees(radians) {
 
 // create arc for textPath (no return line)
 // source: https://www.visualcinnamon.com/2015/09/placing-text-on-arcs/
-function getArcForTextPlacement(arc) {
+function getArcForTextPlacement(arc, angle, category) {
   var firstArcSection = /(^.+?)L/;
-  //The [1] gives back the expression between the () (thus not the L as well)
-  //which is exactly the arc statement
+  // The [1] gives back the expression between the () (thus not the L as well) which is exactly the arc statement
   var newArc = firstArcSection.exec(arc)[1];
-  //Replace all the comma's so that IE can handle it -_-
-  //The g after the / is a modifier that "find all matches rather than
-  //stopping after the first match"
-  return newArc.replace(/,/g, " ");
+  // Replace all the comma's so that IE can handle it -_-
+  // The g after the / is a modifier that "find all matches rather than stopping after the first match"
+  newArc.replace(/,/g, " ");
+
+  if (radiansToDegrees(angle) > 90 && radiansToDegrees(angle) < 270) {
+    // Everything between the capital M and first capital A
+    var startLoc = /M(.*?)A/;
+    // Everything between the capital A and 0 0 1
+    var middleLoc = /A(.*?)0,0,1/;
+    // Everything between the 0 0 1 and the end of the string (denoted by $)
+    var endLoc = /0,0,1,(.*?)$/;
+    // Flip the direction of the arc by switching the start and end point and using a 0 (instead of 1) sweep flag
+    var newStart = endLoc.exec(newArc)[1];
+    var newEnd = startLoc.exec(newArc)[1];
+    var middleSec = middleLoc.exec(newArc)[1];
+
+    //Build up the new arc notation, set the sweep-flag to 0
+    newArc = "M" + newStart + "A" + middleSec + "0 0 0 " + newEnd;
+  }
+  return newArc;
 }
 
 function Viz() {
@@ -124,9 +139,8 @@ function Viz() {
       .startAngle(startAngle)
       .endAngle(endAngle);
 
-    const textArc = getArcForTextPlacement(categoryArc());
-
-    // TODO: flip text if it's on the lower half of the circle --> https://www.visualcinnamon.com/2015/09/placing-text-on-arcs/
+    // create arc for textPath (no return line and flipped if on lower half of circle)
+    const textArc = getArcForTextPlacement(categoryArc(), startAngle, category);
 
     return html`
       <g
@@ -140,9 +154,15 @@ function Viz() {
         <path d="${categoryArc()}" />
 
         <defs>
-          <path d="${textArc}" id="category-path-${index}" />
+          <path d="${textArc}" id="category-path-${index}" fill="transparent" />
         </defs>
-        <text dominant-baseline="hanging" dy="4">
+        <text
+          dominant-baseline="hanging"
+          dy="${radiansToDegrees(startAngle) > 90 &&
+          radiansToDegrees(startAngle) < 270
+            ? -21
+            : 6}"
+        >
           <textPath
             href="#category-path-${index}"
             startOffset="50%"
