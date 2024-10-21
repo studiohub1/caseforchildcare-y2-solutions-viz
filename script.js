@@ -8,6 +8,19 @@ function radiansToDegrees(radians) {
   return (radians * 180) / Math.PI;
 }
 
+// create arc for textPath (no return line)
+// source: https://www.visualcinnamon.com/2015/09/placing-text-on-arcs/
+function getArcForTextPlacement(arc) {
+  var firstArcSection = /(^.+?)L/;
+  //The [1] gives back the expression between the () (thus not the L as well)
+  //which is exactly the arc statement
+  var newArc = firstArcSection.exec(arc)[1];
+  //Replace all the comma's so that IE can handle it -_-
+  //The g after the / is a modifier that "find all matches rather than
+  //stopping after the first match"
+  return newArc.replace(/,/g, " ");
+}
+
 function Viz() {
   // square size
   const width = 1200;
@@ -87,7 +100,7 @@ function Viz() {
     `;
   });
 
-  const categoryGroups = categories.map((category) => {
+  const categoryGroups = categories.map((category, index) => {
     const categoryData = data.filter((d) => d["Category"] === category);
 
     const startAngle =
@@ -96,6 +109,7 @@ function Viz() {
       circleScale(data.indexOf(categoryData[categoryData.length - 1])) +
       circleScale.bandwidth() -
       circlePadding;
+
     const categoryArc = d3
       .arc()
       .innerRadius(innerRadiusCategories)
@@ -103,15 +117,24 @@ function Viz() {
       .startAngle(startAngle)
       .endAngle(endAngle);
 
+    const textArc = getArcForTextPlacement(categoryArc());
+
+    // TODO: flip text if it's on the lower half of the circle --> https://www.visualcinnamon.com/2015/09/placing-text-on-arcs/
+
     return html`
       <g class="category" data-category="${category}">
         <path d="${categoryArc()}" />
-        <text
-          transform="rotate(${radiansToDegrees(
-            (startAngle + endAngle) / 2
-          )}) translate(0, -${outerRadiusCategories + 10})"
-        >
-          ${category}
+
+        <defs>
+          <path d="${textArc}" id="category-path-${index}" />
+        </defs>
+        <text dominant-baseline="hanging" dy="4">
+          <textPath
+            href="#category-path-${index}"
+            startOffset="50%"
+            text-anchor="middle"
+            >${category}</textPath
+          >
         </text>
       </g>
     `;
@@ -130,7 +153,7 @@ function Viz() {
             <text dy="24px">click in to see details and resources.</text>
           </g>
         </g>
-        <circle cx="0" cy="0" r="8" fill="red" stroke="black" />
+        //
         <g class="categories">${categoryGroups}</g>
         <g class="petals">${petalGroups}</g>
       </g>
