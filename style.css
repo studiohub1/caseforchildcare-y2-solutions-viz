@@ -54,6 +54,10 @@
 
   max-width: 1000px;
   margin: 0 auto;
+
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 #solution-viz svg {
@@ -89,4 +93,8 @@
   .category[data-category="Policy, Advocacy, & Systemic Change"]
   path {
   fill: var(--color-frontline-main-teal);
+}
+
+#solution-viz .petal .text {
+  font-size: 14px;
 }

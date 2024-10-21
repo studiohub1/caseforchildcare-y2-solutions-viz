@@ -18,6 +18,8 @@ function Viz() {
   const outerRadiusPetals = innerRadiusCategories - 32; // 32 is the distance between the category arc and petals
   const innerRadius = outerRadiusPetals - 290; // 290 is the width of a petal arc
 
+  const circlePadding = 0.01;
+
   const [data, setData] = useState([]);
   const [categories, setCategories] = useState([]);
 
@@ -41,7 +43,7 @@ function Viz() {
     .scaleBand()
     .domain(data.map((d, index) => index))
     .range([0, 2 * Math.PI])
-    .padding(0.01);
+    .padding(circlePadding);
 
   console.log(data);
 
@@ -53,29 +55,64 @@ function Viz() {
       .outerRadius(outerRadiusPetals)
       .startAngle(circleScale(index))
       .endAngle(circleScale(index) + circleScale.bandwidth())
-      .padAngle(0.01)
+      .padAngle(circlePadding)
       .cornerRadius(18);
 
+    // TODO: fix text rotation
+    const petalTextAngle =
+      radiansToDegrees(circleScale(index)) < 180
+        ? radiansToDegrees(circleScale(index) + circleScale.bandwidth() / 2) -
+          90
+        : radiansToDegrees(circleScale(index) + circleScale.bandwidth() / 2) -
+          90;
+
+    const petalTextTranslateX =
+      innerRadius + (outerRadiusPetals - innerRadius) / 2;
+
     return html`
-      <g class="petal" data-category="${item["Category"]}">
+      <g
+        class="petal"
+        data-category="${item["Category"]}"
+        data-solution="${item["Solution abbreviation"]}"
+      >
         <path d="${petalArc()}" />
+        <text
+          text-anchor="middle"
+          dominant-baseline="middle"
+          transform="rotate(${petalTextAngle}) translate(${petalTextTranslateX},0)"
+        >
+          ${item["Solution abbreviation"]}
+        </text>
       </g>
     `;
   });
 
   const categoryGroups = categories.map((category) => {
     const categoryData = data.filter((d) => d["Category"] === category);
+
+    const startAngle =
+      circleScale(data.indexOf(categoryData[0])) + circlePadding;
+    const endAngle =
+      circleScale(data.indexOf(categoryData[categoryData.length - 1])) +
+      circleScale.bandwidth() -
+      circlePadding;
     const categoryArc = d3
       .arc()
       .innerRadius(innerRadiusCategories)
       .outerRadius(outerRadiusCategories)
-      .startAngle(circleScale(data.indexOf(categoryData[0])))
-      .endAngle(
-        circleScale(data.indexOf(categoryData[categoryData.length - 1]))
-      );
+      .startAngle(startAngle)
+      .endAngle(endAngle);
+
     return html`
       <g class="category" data-category="${category}">
         <path d="${categoryArc()}" />
+        <text
+          transform="rotate(${radiansToDegrees(
+            (startAngle + endAngle) / 2
+          )}) translate(0, -${outerRadiusCategories + 10})"
+        >
+          ${category}
+        </text>
       </g>
     `;
   });
@@ -83,9 +120,6 @@ function Viz() {
   return html`
     <svg viewBox="0 0 ${width} ${height}">
       <g transform="translate(${width / 2}, ${height / 2})">
-        <circle r="${innerRadius}" fill="none" stroke="#ccc" />
-        <circle r="${outerRadiusPetals}" fill="none" stroke="#ccc" />
-        <circle r="${outerRadiusPetals}" fill="none" stroke="#ccc" />
         <g text-anchor="middle">
           <text dy="-1rem">Childcare</text>
           <text dy="0rem">Solutions</text>
