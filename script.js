@@ -1,4 +1,5 @@
 import { h, render } from "https://esm.sh/preact";
+import { useState, useEffect } from "https://esm.sh/preact/hooks";
 import htm from "https://esm.sh/htm";
 
 const html = htm.bind(h);
@@ -15,26 +16,43 @@ function Viz() {
   const innerRadius = 250;
   const outerRadius = 350;
 
-  const items = [
-    { index: 1, group: "A" },
-    { index: 2, group: "A" },
-    { index: 3, group: "A" },
-    { index: 4, group: "B" },
-    { index: 5, group: "B" },
-    { index: 6, group: "B" },
-    { index: 7, group: "C" },
-    { index: 8, group: "C" },
-    { index: 9, group: "C" },
-  ];
+  const [data, setData] = useState([]);
+  const [categories, setCategories] = useState([]);
 
+  // load data
+  useEffect(() => {
+    d3.csv("./solutions-data.csv").then((loadedData) => {
+      setData(loadedData);
+      // get unique categories
+      const uniqueCategories = Array.from(
+        new Set(loadedData.map((d) => d["Category"]))
+      );
+      setCategories(uniqueCategories);
+      console.log(uniqueCategories);
+    });
+  }, []);
+
+  // scale to position petals in a circle
   const circleScale = d3
     .scaleBand()
-    .domain(items.map((d) => d.index))
+    .domain(data.map((d, index) => index))
     .range([0, 2 * Math.PI]);
 
-  d3.csv("./solutions-data.csv").then((data) => {
-    console.log(data);
-  });
+  console.log(data);
+
+  // translate group to innerRadius then rotate along circle
+  const petals = data.map(
+    (item, index) => html`
+      <g
+        class="petal"
+        transform="rotate(${radiansToDegrees(circleScale(index)) -
+        90}) translate(${innerRadius},0)"
+        data-category="${item["Category"]}"
+      >
+        <rect x="0" y="-10" width="100" height="20" />
+      </g>
+    `
+  );
 
   return html`
     <svg viewBox="0 0 ${width} ${height}">
@@ -48,21 +66,7 @@ function Viz() {
             Hover on a solution to preview, click to read more and see resource
           </text>
         </g>
-
-        <g class="petals">
-          <!-- translate group to innerRadius then rotate along circle -->
-          ${items.map(
-            (item) => html`
-              <g
-                class="petal"
-                transform="rotate(${radiansToDegrees(circleScale(item.index)) -
-                90}) translate(${innerRadius},0)"
-              >
-                <rect x="-10" y="-10" width="20" height="20" fill="red" />
-              </g>
-            `
-          )}
-        </g>
+        <g class="petals">${petals}</g>
       </g>
     </svg>
   `;

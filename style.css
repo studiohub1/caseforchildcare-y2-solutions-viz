@@ -1,4 +1,57 @@
 #solution-viz {
+  --color-brand-main-lime: #dcde65;
+  --color-brand-main-orange: #ff8a53;
+  --color-brand-main-purple: #d6b9ff;
+  --color-brand-accent-yellow: #ffe6a5;
+  --color-brand-main-pink: #fbe5e5;
+  --color-brown-900: #170f08;
+  --color-brown-100: #ffffff;
+  --color-brown-500: #54483d;
+  --color-brown-300: #c9b1ac;
+  --color-brown-700: #2e1e10;
+  --color-brand-accent-sherbert: #ffe4d7;
+  --color-brand-accent-lavender: #dfc9ff;
+  --color-brand-accent-cobalt: #5572d6;
+  --color-brand-accent-babyblue: #9ac6ef;
+  --color-brand-accent-forest: #485925;
+  --color-brown-200: #f9f4f2;
+  --color-brand-accent-amethyst: #8b75e0;
+  --color-brand-accent-tan: #ebb79e;
+  --color-brown-600: #6c3f1f;
+  --text-sizing-80px: 5px;
+  --text-sizing-61px: 3.812000036239624px;
+  --text-sizing-47px: 2.937999963760376px;
+  --text-sizing-36px: 2.25px;
+  --text-sizing-27px: 1.687999963760376px;
+  --text-sizing-21px: 1.312000036239624px;
+  --text-sizing-16px: 1px;
+  --text-sizing-12px: 0.75px;
+  --spacing-10: 100px;
+  --spacing-5: 24px;
+  --spacing-2: 8px;
+  --spacing-1: 4px;
+  --spacing-4: 16px;
+  --spacing-6: 32px;
+  --spacing-3: 12px;
+  --spacing-7: 40px;
+  --spacing-8: 64px;
+  --spacing-9: 80px;
+  --breakpoints-desktop: 1440px;
+  --breakpoints-mobile: 390px;
+  --color-brown-400: #a68c76;
+  --color-brand-accent-olive: #9c9e36;
+  --color-brand-accent-cream: #fff5f0;
+  --color-brand-accent-sand: #facbb4;
+  --color-frontline-main-coral: #e0594f;
+  --color-frontline-main-plum: #733250;
+  --color-frontline-main-teal: #2b91ad;
+  --color-frontline-main-sun: #ffec5c;
+  --color-frontline-main-tangerine: #ff8a53;
+  --color-frontline-main-violet: #8b75e0;
+  --color-frontline-main-green: #99d68f;
+  --color-frontline-main-baby-blue: #dcf0ff;
+  --color-frontline-main-coal: #202124;
+
   max-width: 1000px;
   margin: 0 auto;
 }
@@ -6,4 +59,26 @@
 #solution-viz svg {
   background-color: #f8f8f8;
   border: 1px solid black;
+}
+
+#solution-viz .petal rect {
+  fill: gray;
+}
+#solution-viz .petal[data-category="Direct Care Solutions"] rect {
+  fill: var(--color-frontline-main-coral);
+}
+#solution-viz .petal[data-category="Employee Engagement & Culture"] rect {
+  fill: var(--color-frontline-main-green);
+}
+#solution-viz .petal[data-category="Financial Support & Benefits"] rect {
+  fill: var(--color-frontline-main-plum);
+}
+#solution-viz .petal[data-category="Flexible Work & Leave Policies"] rect {
+  fill: var(--color-brand-main-purple);
+}
+#solution-viz .petal[data-category="Learning & Assessment"] rect {
+  fill: var(--color-frontline-main-tangerine);
+}
+#solution-viz .petal[data-category="Policy, Advocacy, & Systemic Change"] rect {
+  fill: var(--color-frontline-main-teal);
 }
