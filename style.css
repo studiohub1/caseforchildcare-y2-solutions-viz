@@ -64,21 +64,29 @@
 #solution-viz .petal rect {
   fill: gray;
 }
-#solution-viz .petal[data-category="Direct Care Solutions"] rect {
+#solution-viz .petal[data-category="Direct Care Solutions"] path,
+#solution-viz .category[data-category="Direct Care Solutions"] path {
   fill: var(--color-frontline-main-coral);
 }
-#solution-viz .petal[data-category="Employee Engagement & Culture"] rect {
+#solution-viz .petal[data-category="Employee Engagement & Culture"] path,
+#solution-viz .category[data-category="Employee Engagement & Culture"] path {
   fill: var(--color-frontline-main-green);
 }
-#solution-viz .petal[data-category="Financial Support & Benefits"] rect {
+#solution-viz .petal[data-category="Financial Support & Benefits"] path,
+#solution-viz .category[data-category="Financial Support & Benefits"] path {
   fill: var(--color-frontline-main-plum);
 }
-#solution-viz .petal[data-category="Flexible Work & Leave Policies"] rect {
+#solution-viz .petal[data-category="Flexible Work & Leave Policies"] path,
+#solution-viz .category[data-category="Flexible Work & Leave Policies"] path {
   fill: var(--color-brand-main-purple);
 }
-#solution-viz .petal[data-category="Learning & Assessment"] rect {
+#solution-viz .petal[data-category="Learning & Assessment"] path,
+#solution-viz .category[data-category="Learning & Assessment"] path {
   fill: var(--color-frontline-main-tangerine);
 }
-#solution-viz .petal[data-category="Policy, Advocacy, & Systemic Change"] rect {
+#solution-viz .petal[data-category="Policy, Advocacy, & Systemic Change"] path,
+#solution-viz
+  .category[data-category="Policy, Advocacy, & Systemic Change"]
+  path {
   fill: var(--color-frontline-main-teal);
 }

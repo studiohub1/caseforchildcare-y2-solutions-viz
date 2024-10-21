@@ -10,11 +10,13 @@ function radiansToDegrees(radians) {
 
 function Viz() {
   // square size
-  const width = 800;
-  const height = 800;
+  const width = 1200;
+  const height = 1200;
 
-  const innerRadius = 250;
-  const outerRadius = 350;
+  const outerRadiusCategories = width / 2 - 20;
+  const innerRadiusCategories = outerRadiusCategories - 27; // 27 is the width of the category arc
+  const outerRadiusPetals = innerRadiusCategories - 32; // 32 is the distance between the category arc and petals
+  const innerRadius = outerRadiusPetals - 290; // 290 is the width of a petal arc
 
   const [data, setData] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -22,13 +24,15 @@ function Viz() {
   // load data
   useEffect(() => {
     d3.csv("./solutions-data.csv").then((loadedData) => {
+      // save data to state
+      // TODO: add sorting for safety in case data changes in file?
       setData(loadedData);
+
       // get unique categories
       const uniqueCategories = Array.from(
         new Set(loadedData.map((d) => d["Category"]))
       );
       setCategories(uniqueCategories);
-      console.log(uniqueCategories);
     });
   }, []);
 
@@ -36,37 +40,59 @@ function Viz() {
   const circleScale = d3
     .scaleBand()
     .domain(data.map((d, index) => index))
-    .range([0, 2 * Math.PI]);
+    .range([0, 2 * Math.PI])
+    .padding(0.01);
 
   console.log(data);
 
   // translate group to innerRadius then rotate along circle
-  const petals = data.map(
-    (item, index) => html`
-      <g
-        class="petal"
-        transform="rotate(${radiansToDegrees(circleScale(index)) -
-        90}) translate(${innerRadius},0)"
-        data-category="${item["Category"]}"
-      >
-        <rect x="0" y="-10" width="100" height="20" />
+  const petalGroups = data.map((item, index) => {
+    const petalArc = d3
+      .arc()
+      .innerRadius(innerRadius)
+      .outerRadius(outerRadiusPetals)
+      .startAngle(circleScale(index))
+      .endAngle(circleScale(index) + circleScale.bandwidth())
+      .padAngle(0.01)
+      .cornerRadius(18);
+
+    return html`
+      <g class="petal" data-category="${item["Category"]}">
+        <path d="${petalArc()}" />
       </g>
-    `
-  );
+    `;
+  });
+
+  const categoryGroups = categories.map((category) => {
+    const categoryData = data.filter((d) => d["Category"] === category);
+    const categoryArc = d3
+      .arc()
+      .innerRadius(innerRadiusCategories)
+      .outerRadius(outerRadiusCategories)
+      .startAngle(circleScale(data.indexOf(categoryData[0])))
+      .endAngle(
+        circleScale(data.indexOf(categoryData[categoryData.length - 1]))
+      );
+    return html`
+      <g class="category" data-category="${category}">
+        <path d="${categoryArc()}" />
+      </g>
+    `;
+  });
 
   return html`
     <svg viewBox="0 0 ${width} ${height}">
       <g transform="translate(${width / 2}, ${height / 2})">
-        <circle r="${innerRadius}" fill="none" stroke="black" />
-        <circle r="${outerRadius}" fill="none" stroke="black" />
+        <circle r="${innerRadius}" fill="none" stroke="#ccc" />
+        <circle r="${outerRadiusPetals}" fill="none" stroke="#ccc" />
+        <circle r="${outerRadiusPetals}" fill="none" stroke="#ccc" />
         <g text-anchor="middle">
           <text dy="-1rem">Childcare</text>
           <text dy="0rem">Solutions</text>
-          <text dy="1.5rem">
-            Hover on a solution to preview, click to read more and see resource
-          </text>
+          <text dy="1.5rem">Hover on a solution to preview</text>
         </g>
-        <g class="petals">${petals}</g>
+        <g class="categories">${categoryGroups}</g>
+        <g class="petals">${petalGroups}</g>
       </g>
     </svg>
   `;
