@@ -120,11 +120,17 @@ function Viz() {
   return html`
     <svg viewBox="0 0 ${width} ${height}">
       <g transform="translate(${width / 2}, ${height / 2})">
-        <g text-anchor="middle">
-          <text dy="-1rem">Childcare</text>
-          <text dy="0rem">Solutions</text>
-          <text dy="1.5rem">Hover on a solution to preview</text>
+        <g class="centerText" text-anchor="middle">
+          <g class="title" transform="translate(0,-40)">
+            <text>Childcare</text>
+            <text dy="60px">Solutions</text>
+          </g>
+          <g class="subtitle" transform="translate(0,60)">
+            <text>Hover on a solution to preview,</text>
+            <text dy="24px">click in to see details and resources.</text>
+          </g>
         </g>
+        <circle cx="0" cy="0" r="8" fill="red" stroke="black" />
         <g class="categories">${categoryGroups}</g>
         <g class="petals">${petalGroups}</g>
       </g>
