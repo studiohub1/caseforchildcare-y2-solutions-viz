@@ -104,14 +104,24 @@
   opacity: 0.24;
 }
 
+#solution-viz .category.category__not_hovered {
+  opacity: 0.24;
+}
+
+/* inner content */
 #solution-viz .innerContent .title {
   font-family: "VCHenrietta", sans-serif;
   font-size: 61px;
+  line-height: 110%;
+  margin: 0;
 }
 
 #solution-viz .innerContent .subtitle {
   font-size: 16px;
   letter-spacing: 0.32px;
+  line-height: 145%;
+  text-wrap-style: balance;
+  margin: 0;
 }
 
 .innerContent {
@@ -121,6 +131,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.innerContent .innerContent__default {
+  justify-content: center;
+  row-gap: 24px;
+}
+.hover-image {
+  width: 63px;
 }
 
 .category-image {

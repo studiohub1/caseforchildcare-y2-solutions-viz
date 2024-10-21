@@ -49,7 +49,6 @@ function Viz() {
         new Set(loadedData.map((d) => d["Category"]))
       );
       setCategories(uniqueCategories);
-      setHoveredItem(loadedData[0]);
     });
   }, []);
 
@@ -130,7 +129,14 @@ function Viz() {
     // TODO: flip text if it's on the lower half of the circle --> https://www.visualcinnamon.com/2015/09/placing-text-on-arcs/
 
     return html`
-      <g class="category" data-category="${category}">
+      <g
+        class="category ${hoveredItem
+          ? hoveredItem["Category"] === category
+            ? ""
+            : "category__not_hovered"
+          : ""}"
+        data-category="${category}"
+      >
         <path d="${categoryArc()}" />
 
         <defs>
@@ -149,31 +155,45 @@ function Viz() {
   });
 
   const innerContentDefault = html`
-    <g class="innerContent innerContent__default" text-anchor="middle">
-      <g class="title" transform="translate(0,-40)">
-        <text>Childcare</text>
-        <text dy="60px">Solutions</text>
-      </g>
-      <g class="subtitle" transform="translate(0,60)">
-        <text>Hover on a solution to preview,</text>
-        <text dy="24px">click in to see details and resources.</text>
-      </g>
+    <g transform="translate(-${innerRadius - 20},-${innerRadius - 20})">
+      <foreignObject
+        x="0"
+        y="0"
+        width="${innerRadius * 2 - 40}"
+        height="${innerRadius * 2 - 40}"
+      >
+        <div
+          class="innerContent innerContent__default"
+          xmlns="http://www.w3.org/1999/xhtml"
+        >
+          <p class="title">Childcare Solutions</p>
+          <p class="subtitle">
+            Hover on a solution to preview, click in to see details and
+            resources.
+          </p>
+          <img
+            src="./illustrations/hover-click.svg"
+            alt="Illustration of hover and click for the petals of the viz"
+            class="hover-image"
+          />
+        </div>
+      </foreignObject>
     </g>
   `;
 
   function innerContentHovered() {
     return html`
-      <g
-        class="innerContent innerContent__hovered"
-        transform="translate(-${innerRadius - 20},-${innerRadius - 20})"
-      >
+      <g transform="translate(-${innerRadius - 20},-${innerRadius - 20})">
         <foreignObject
           x="0"
           y="0"
           width="${innerRadius * 2 - 40}"
           height="${innerRadius * 2 - 40}"
         >
-          <div class="innerContent" xmlns="http://www.w3.org/1999/xhtml">
+          <div
+            class="innerContent innerContent__hovered"
+            xmlns="http://www.w3.org/1999/xhtml"
+          >
             <img
               src="./illustrations/${hoveredItem["Category"]}.svg"
               alt="${hoveredItem["Category"]}"
