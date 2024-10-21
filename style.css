@@ -1,0 +1,9 @@
+#solution-viz {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+#solution-viz svg {
+  background-color: #f8f8f8;
+  border: 1px solid black;
+}
