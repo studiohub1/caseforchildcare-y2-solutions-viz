@@ -38,8 +38,8 @@ function getArcForTextPlacement(arc, angle, category) {
 
 function Viz() {
   // square size
-  const width = 1200;
-  const height = 1200;
+  const width = 1300;
+  const height = 1300;
 
   const outerRadiusCategories = width / 2 - 20;
   const innerRadiusCategories = outerRadiusCategories - 27; // 27 is the width of the category arc
@@ -70,11 +70,14 @@ function Viz() {
   // scale to position petals in a circle
   const circleScale = d3
     .scaleBand()
-    .domain(data.map((d, index) => index))
+    .domain(data.map((_, index) => index))
     .range([0, 2 * Math.PI])
     .padding(circlePadding);
 
-  console.log(data);
+  function handlePetalClick(item) {
+    // open modal with item details, TODO: implement in Webflow
+    console.log(item);
+  }
 
   // translate group to innerRadius then rotate along circle
   const petalGroups = data.map((item, index) => {
@@ -87,15 +90,32 @@ function Viz() {
       .padAngle(circlePadding)
       .cornerRadius(18);
 
+    // create arc for hover state (no padding), invisible
+    const petalArcHover = d3
+      .arc()
+      .innerRadius(innerRadius)
+      .outerRadius(outerRadiusPetals)
+      .startAngle(circleScale(index))
+      .endAngle(circleScale(index) + circleScale.bandwidth())
+      .padAngle(-1)
+      .cornerRadius(18);
+
     let petalTextAngle =
       radiansToDegrees(circleScale(index) + circleScale.bandwidth() / 2) - 90;
+    let petalIconAngleBack =
+      -1 * radiansToDegrees(circleScale(index) + circleScale.bandwidth() / 2) -
+      90 +
+      180;
     let petalTextTranslateX =
       innerRadius + (outerRadiusPetals - innerRadius) / 2;
+    let petalButtonTranslateX = innerRadius + 22;
 
     // flip text if it's on the lower half of the circle
     if (radiansToDegrees(circleScale(index)) > 180) {
       petalTextAngle += 180;
       petalTextTranslateX *= -1;
+      petalButtonTranslateX *= -1;
+      petalIconAngleBack += 180;
     }
 
     return html`
@@ -107,10 +127,16 @@ function Viz() {
           : ""}"
         data-category="${item["Category"]}"
         data-solution="${item["Solution abbreviation"]}"
-        onmouseover="${() => setHoveredItem(item)}"
-        onmouseout="${() => setHoveredItem(null)}"
+        onclick="${() => handlePetalClick(item)}"
       >
-        <path d="${petalArc()}" />
+        <path d="${petalArc()}" stroke="none" />
+        <path
+          d="${petalArcHover()}"
+          opacity="0"
+          onmouseover="${() => setHoveredItem(item)}"
+          onmouseout="${() => setHoveredItem(null)}"
+          stroke="red"
+        />
         <text
           text-anchor="middle"
           dominant-baseline="middle"
@@ -118,6 +144,22 @@ function Viz() {
         >
           ${item["Solution abbreviation"]}
         </text>
+        <g
+          class="detail-button-group ${hoveredItem
+            ? hoveredItem === item
+              ? "hovered"
+              : ""
+            : ""}"
+          transform="rotate(${petalTextAngle}) translate(${petalButtonTranslateX},0) rotate(${petalIconAngleBack}) "
+        >
+          <image
+            href="./illustrations/read-more-button.svg"
+            alt="Arrow right"
+            height="40px"
+            width="40px"
+            transform="translate(-18,-22)"
+          />
+        </g>
       </g>
     `;
   });

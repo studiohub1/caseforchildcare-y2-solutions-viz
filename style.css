@@ -13,7 +13,7 @@
 
 /* viz container */
 #solution-viz {
-  max-width: 1000px;
+  max-width: 1332px;
   margin: 0 auto;
 }
 
@@ -27,18 +27,30 @@
 /***** petals ******/
 #solution-viz .petal text {
   font-size: 14px;
-  z-index: 10;
+  pointer-events: none;
 }
 #solution-viz .petal {
   cursor: pointer;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.5s ease;
 }
 #solution-viz .petal.petal__not_hovered {
   opacity: 0.24;
 }
 
+#solution-viz .category {
+  transition: opacity 0.5s ease;
+}
 #solution-viz .category.category__not_hovered {
   opacity: 0.24;
+}
+
+#solution-viz .detail-button-group image {
+  pointer-events: none;
+  opacity: 0;
+}
+
+#solution-viz .detail-button-group.hovered image {
+  opacity: 1;
 }
 
 /******** inner content ********/
@@ -60,7 +72,7 @@
   font-family: "VCHenrietta", sans-serif;
   font-size: 61px;
   line-height: 110%;
-  margin: 0;
+  margin: 48px 0 0 0;
 }
 #solution-viz .innerContent .subtitle {
   font-size: 16px;
