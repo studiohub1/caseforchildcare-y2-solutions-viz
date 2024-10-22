@@ -38,6 +38,7 @@
 
 #solution-viz .category {
   transition: opacity 0.5s ease;
+  font-size: 16px;
 }
 #solution-viz .category.category__not_hovered {
   opacity: 0.24;
@@ -102,7 +103,7 @@
   letter-spacing: 0.32px;
 }
 #solution-viz .solution-title {
-  font-family: "VCHenrietta", sans-serif;
+  font-family: "VC Henrietta", sans-serif;
   font-size: 27px;
   line-height: 120%;
   margin: 0;
