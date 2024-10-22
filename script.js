@@ -7,13 +7,13 @@ import { useState, useEffect } from "https://esm.sh/preact/hooks";
 import htm from "https://esm.sh/htm";
 
 // set asset path based on environment
-const ENV = "production"; // development or production
+const ENV = "development"; // development or production
 let ASSET_PATH = "";
 if (ENV === "development") {
-  console.log("Development mode");
+  console.log("Solutions Viz - Development mode");
   ASSET_PATH = "./assets";
 } else {
-  console.log("Production mode");
+  console.log("Solutions Viz - Production mode");
   ASSET_PATH =
     "https://datacult.github.io/caseforchildcare-y2-solutions-viz/assets";
 }

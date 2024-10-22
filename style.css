@@ -21,7 +21,6 @@
   font-family: "Poppins", sans-serif;
   font-weight: 400;
   font-style: normal;
-  border: 1px solid #ccc;
 }
 
 /***** petals ******/
@@ -69,7 +68,7 @@
   row-gap: 24px;
 }
 #solution-viz .innerContent .title {
-  font-family: "VCHenrietta", sans-serif;
+  font-family: "VC Henrietta", sans-serif;
   font-size: 61px;
   line-height: 110%;
   margin: 48px 0 0 0;
