@@ -217,63 +217,39 @@ function Viz() {
   });
 
   const innerContentDefault = html`
-    <g transform="translate(-${innerRadius - 20},-${innerRadius - 20})">
-      <foreignObject
-        x="0"
-        y="0"
-        width="${innerRadius * 2 - 40}"
-        height="${innerRadius * 2 - 40}"
-      >
-        <div
-          class="innerContent innerContent__default"
-          xmlns="http://www.w3.org/1999/xhtml"
-        >
-          <p class="title">Childcare Solutions</p>
-          <p class="subtitle">
-            Hover on a solution to preview, click in to see details and
-            resources.
-          </p>
-          <img
-            src="./illustrations/hover-click.svg"
-            alt="Illustration of hover and click for the petals of the viz"
-            class="hover-image"
-          />
-        </div>
-      </foreignObject>
-    </g>
+    <div
+      class="innerContent innerContent__default"
+      xmlns="http://www.w3.org/1999/xhtml"
+    >
+      <p class="title">Childcare Solutions</p>
+      <p class="subtitle">
+        Hover on a solution to preview, click in to see details and resources.
+      </p>
+      <img
+        src="./illustrations/hover-click.svg"
+        alt="Illustration of hover and click for the petals of the viz"
+        class="hover-image"
+      />
+    </div>
   `;
 
   function innerContentHovered() {
     return html`
-      <g transform="translate(-${innerRadius - 20},-${innerRadius - 20})">
-        <foreignObject
-          x="0"
-          y="0"
-          width="${innerRadius * 2 - 40}"
-          height="${innerRadius * 2 - 40}"
-        >
-          <div
-            class="innerContent innerContent__hovered"
-            xmlns="http://www.w3.org/1999/xhtml"
-          >
-            <img
-              src="./illustrations/${hoveredItem["Category"]}.svg"
-              alt="${hoveredItem["Category"]}"
-              class="category-image"
-            />
-            <div
-              class="category-pill"
-              data-category="${hoveredItem["Category"]}"
-            >
-              ${hoveredItem["Category"]}
-            </div>
-            <p class="solution-title">
-              ${hoveredItem["Solution abbreviation"]}
-            </p>
-            <p class="solution-subtitle">${hoveredItem["Solution"]}</p>
-          </div>
-        </foreignObject>
-      </g>
+      <div
+        class="innerContent innerContent__hovered"
+        xmlns="http://www.w3.org/1999/xhtml"
+      >
+        <img
+          src="./illustrations/${hoveredItem["Category"]}.svg"
+          alt="${hoveredItem["Category"]}"
+          class="category-image"
+        />
+        <div class="category-pill" data-category="${hoveredItem["Category"]}">
+          ${hoveredItem["Category"]}
+        </div>
+        <p class="solution-title">${hoveredItem["Solution abbreviation"]}</p>
+        <p class="solution-subtitle">${hoveredItem["Solution"]}</p>
+      </div>
     `;
   }
 
@@ -286,7 +262,18 @@ function Viz() {
       <g transform="translate(${width / 2}, ${height / 2})">
         <g class="categories">${categoryGroups}</g>
         <g class="petals">${petalGroups}</g>
-        <g class="innerContent">${innerContent}</g>
+        <g class="innerContent">
+          <g transform="translate(-${innerRadius - 20},-${innerRadius - 20})">
+            <foreignObject
+              x="0"
+              y="0"
+              width="${innerRadius * 2 - 40}"
+              height="${innerRadius * 2 - 40}"
+            >
+              ${innerContent}
+            </foreignObject>
+          </g>
+        </g>
       </g>
     </svg>
   `;
