@@ -283,4 +283,11 @@ function Viz() {
   `;
 }
 
-render(html`<${Viz} />`, document.getElementById("solution-viz"));
+const vizContainerElement = document.getElementById("solution-viz");
+if (vizContainerElement) {
+  render(html`<${Viz} />`, vizContainerElement);
+} else {
+  console.error(
+    "Could not find container element for solution viz with id 'solution-viz'"
+  );
+}
