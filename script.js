@@ -54,7 +54,7 @@ function Viz() {
 
   // load data
   useEffect(() => {
-    d3.csv("./solutions-data.csv").then((loadedData) => {
+    d3.csv("./assets/data/solutions-data.csv").then((loadedData) => {
       // save data to state
       // TODO: add sorting for safety in case data changes in file?
       setData(loadedData);
@@ -153,7 +153,7 @@ function Viz() {
           transform="rotate(${petalTextAngle}) translate(${petalButtonTranslateX},0) rotate(${petalIconAngleBack}) "
         >
           <image
-            href="./illustrations/read-more-button.svg"
+            href="./assets/illustrations/read-more-button.svg"
             alt="Arrow right"
             height="40px"
             width="40px"
@@ -226,7 +226,7 @@ function Viz() {
         Hover on a solution to preview, click in to see details and resources.
       </p>
       <img
-        src="./illustrations/hover-click.svg"
+        src="./assets/illustrations/hover-click.svg"
         alt="Illustration of hover and click for the petals of the viz"
         class="hover-image"
       />
@@ -240,7 +240,7 @@ function Viz() {
         xmlns="http://www.w3.org/1999/xhtml"
       >
         <img
-          src="./illustrations/${hoveredItem["Category"]}.svg"
+          src="./assets/illustrations/${hoveredItem["Category"]}.svg"
           alt="${hoveredItem["Category"]}"
           class="category-image"
         />
