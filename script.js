@@ -1,3 +1,7 @@
+// © 2024 Data Culture
+// Released under the ISC license.
+// https://studio.datacult.com/
+
 import { h, render } from "https://esm.sh/preact";
 import { useState, useEffect } from "https://esm.sh/preact/hooks";
 import htm from "https://esm.sh/htm";
