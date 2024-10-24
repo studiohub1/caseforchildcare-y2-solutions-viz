@@ -125,7 +125,7 @@ function Viz() {
       180;
     let petalTextTranslateX =
       innerRadius + (outerRadiusPetals - innerRadius) / 2;
-    let petalButtonTranslateX = innerRadius + 22;
+    let petalButtonTranslateX = innerRadius + 45;
 
     // flip text if it's on the lower half of the circle
     if (radiansToDegrees(circleScale(index)) > 180) {

@@ -86,6 +86,9 @@
 }
 
 /* inner content --- hovered */
+#solution-viz .innerContent .innerContent__hovered {
+  padding: 36px 0 0;
+}
 #solution-viz .category-image {
   width: 122px;
   height: 122px;
@@ -97,7 +100,7 @@
   width: fit-content;
   padding: 8px 24px;
   margin-top: -12px;
-  margin-bottom: 48px;
+  margin-bottom: 64px;
   font-size: 16px;
   line-height: 145%;
   letter-spacing: 0.32px;
@@ -115,6 +118,8 @@
   letter-spacing: 0.42px;
   margin: 0;
   padding: 0 16px;
+  max-width: 80%;
+  text-wrap-style: balance;
 }
 
 /******** colors based on category data  ***********/
