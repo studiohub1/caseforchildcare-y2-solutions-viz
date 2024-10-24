@@ -96,6 +96,7 @@ function Viz() {
   }
 
   // translate group to innerRadius then rotate along circle
+  const cornerRadiusPetals = 0; // before 18
   const petalGroups = data.map((item, index) => {
     const petalArc = d3
       .arc()
@@ -104,7 +105,7 @@ function Viz() {
       .startAngle(circleScale(index))
       .endAngle(circleScale(index) + circleScale.bandwidth())
       .padAngle(circlePadding)
-      .cornerRadius(18);
+      .cornerRadius(cornerRadiusPetals);
 
     // create arc for hover state (no padding), invisible
     const petalArcHover = d3
@@ -114,7 +115,7 @@ function Viz() {
       .startAngle(circleScale(index))
       .endAngle(circleScale(index) + circleScale.bandwidth())
       .padAngle(-1)
-      .cornerRadius(18);
+      .cornerRadius(cornerRadiusPetals);
 
     let petalTextAngle =
       radiansToDegrees(circleScale(index) + circleScale.bandwidth() / 2) - 90;
@@ -179,6 +180,14 @@ function Viz() {
       </g>
     `;
   });
+
+  // inside arc
+  const insideArc = d3
+    .arc()
+    .innerRadius(innerRadius)
+    .outerRadius(innerRadius + 24)
+    .startAngle(0)
+    .endAngle(2 * Math.PI);
 
   const categoryGroups = categories.map((category, index) => {
     const categoryData = data.filter((d) => d["Category"] === category);
@@ -290,6 +299,7 @@ function Viz() {
             </foreignObject>
           </g>
         </g>
+        <path d=${insideArc()} fill="#E8E8E8" stroke="#E8E8E8" />
       </g>
     </svg>
   `;
