@@ -7,7 +7,7 @@ import { useState, useEffect } from "https://esm.sh/preact/hooks";
 import htm from "https://esm.sh/htm";
 
 // set asset path based on environment
-const ENV = "development"; // development or production
+const ENV = "production"; // development or production
 let ASSET_PATH = "";
 if (ENV === "development") {
   console.log("Solutions Viz - Development mode");
