@@ -7,7 +7,7 @@ import { useState, useEffect } from "https://esm.sh/preact/hooks";
 import htm from "https://esm.sh/htm";
 
 // set asset path based on environment
-const ENV = "production"; // development or production
+const ENV = "development"; // development or production
 let ASSET_PATH = "";
 if (ENV === "development") {
   console.log("Solutions Viz - Development mode");
@@ -169,11 +169,11 @@ function Viz() {
           transform="rotate(${petalTextAngle}) translate(${petalButtonTranslateX},0) rotate(${petalIconAngleBack}) "
         >
           <image
-            href="${ASSET_PATH}/illustrations/read-more-button.svg"
+            href="${ASSET_PATH}/illustrations/detail-button.svg"
             alt="Arrow right"
-            height="40px"
-            width="40px"
-            transform="translate(-18,-22)"
+            height="30px"
+            width="30px"
+            transform="translate(-15,-15)"
           />
         </g>
       </g>
