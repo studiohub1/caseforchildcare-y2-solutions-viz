@@ -74,6 +74,7 @@
   font-size: 61px;
   line-height: 110%;
   margin: 48px 0 0 0;
+  max-width: 80%;
 }
 #solution-viz .innerContent .subtitle {
   font-size: 16px;

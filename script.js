@@ -68,7 +68,7 @@ function Viz() {
   const innerRadius = outerRadiusPetals - lengthPetals; // 290 is the width of a petal arc
 
   const circlePadding = 0.01;
-  const spaceBetweenGroups = 0.04;
+  const spaceBetweenGroups = 0.035;
   const spaceBetweenPetalsWithinGroup = 0.01;
   const cornerRadiusPetals = 15; // before 18
 
@@ -251,7 +251,8 @@ function Viz() {
       .innerRadius(innerRadiusCategories)
       .outerRadius(outerRadiusCategories)
       .startAngle(startAngle)
-      .endAngle(endAngle);
+      .endAngle(endAngle)
+      .cornerRadius(10);
 
     // create arc for textPath (no return line and flipped if on lower half of circle)
     const textArc = getArcForTextPlacement(
