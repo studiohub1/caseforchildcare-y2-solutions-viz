@@ -81,6 +81,7 @@
   line-height: 145%;
   text-wrap-style: balance;
   margin: 0;
+  max-width: 80%;
 }
 #solution-viz .hover-image {
   width: 63px;

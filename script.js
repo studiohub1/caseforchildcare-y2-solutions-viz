@@ -282,8 +282,206 @@ function Viz() {
     ? innerContentHovered()
     : innerContentDefault;
 
+  const inlineStyles = html`
+    <style type="text/css">
+      /***** color variables ********/
+      :root {
+        --color-brand-main-purple: #d6b9ff;
+        --color-frontline-main-coral: #e0594f;
+        --color-frontline-main-plum: #733250;
+        --color-frontline-main-green: #99d68f;
+        --color-frontline-main-tangerine: #ff8a53;
+        --color-frontline-main-teal: #2b91ad;
+
+        --text-color-dark: #202124;
+        --text-color-light: #ffffff;
+        font-family: "Poppins", sans-serif;
+      }
+
+      svg {
+        font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+      }
+
+      /***** petals ******/
+      .petal text {
+        font-size: 14px;
+        pointer-events: none;
+      }
+      .petal {
+        cursor: pointer;
+        transition: opacity 0.5s ease;
+      }
+      .petal.petal__not_hovered {
+        opacity: 0.24;
+      }
+
+      .category {
+        transition: opacity 0.5s ease;
+        font-size: 16px;
+      }
+      .category.category__not_hovered {
+        opacity: 0.24;
+      }
+
+      .detail-button-group image {
+        pointer-events: none;
+        opacity: 0;
+      }
+
+      .detail-button-group.hovered image {
+        opacity: 1;
+      }
+
+      /******** inner content ********/
+      .innerContent {
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* inner content --- default */
+      .innerContent .innerContent__default {
+        justify-content: center;
+        row-gap: 24px;
+        padding-top: 8px;
+      }
+      .innerContent .title {
+        font-family: "VC Henrietta", sans-serif;
+        font-size: 61px;
+        line-height: 110%;
+        margin: 48px 0 0 0;
+      }
+      .innerContent .subtitle {
+        font-size: 16px;
+        letter-spacing: 0.32px;
+        line-height: 145%;
+        text-wrap-style: balance;
+        margin: 0;
+        max-width: 80%;
+      }
+      .hover-image {
+        width: 63px;
+      }
+
+      /* inner content --- hovered */
+      .innerContent .innerContent__hovered {
+        padding: 36px 0 0;
+      }
+      .category-image {
+        width: 122px;
+        height: 122px;
+        z-index: 1;
+      }
+      .category-pill {
+        background-color: gray; /* Fallback color */
+        border-radius: 100px;
+        width: fit-content;
+        padding: 8px 24px;
+        margin-top: -12px;
+        margin-bottom: 64px;
+        font-size: 16px;
+        line-height: 145%;
+        letter-spacing: 0.32px;
+      }
+      .solution-title {
+        font-family: "VC Henrietta", sans-serif;
+        font-size: 27px;
+        line-height: 120%;
+        margin: 0;
+        padding: 0 8px 24px;
+      }
+      .solution-subtitle {
+        font-size: 18px;
+        line-height: 150%;
+        letter-spacing: 0.42px;
+        margin: 0;
+        padding: 0 16px;
+        max-width: 80%;
+        text-wrap-style: balance;
+      }
+
+      /******** colors based on category data  ***********/
+      .petal path,
+      .category path {
+        fill: gray;
+      }
+
+      [data-category="Direct Care Solutions"],
+      [data-category="Direct Care Solutions"] path {
+        fill: var(--color-frontline-main-coral);
+        background-color: var(--color-frontline-main-coral);
+      }
+      [data-category="Direct Care Solutions"],
+      [data-category="Direct Care Solutions"] text {
+        fill: var(--text-color-light);
+        color: var(--text-color-light);
+      }
+
+      [data-category="Employee Engagement & Culture"],
+      [data-category="Employee Engagement & Culture"] path {
+        fill: var(--color-frontline-main-green);
+        background-color: var(--color-frontline-main-green);
+      }
+      [data-category="Employee Engagement & Culture"],
+      [data-category="Employee Engagement & Culture"] text {
+        fill: var(--text-color-dark);
+        color: var(--text-color-dark);
+      }
+
+      [data-category="Financial Support & Benefits"],
+      [data-category="Financial Support & Benefits"] path {
+        fill: var(--color-frontline-main-plum);
+        background-color: var(--color-frontline-main-plum);
+      }
+      [data-category="Financial Support & Benefits"],
+      [data-category="Financial Support & Benefits"] text {
+        fill: var(--text-color-light);
+        color: var(--text-color-light);
+      }
+
+      [data-category="Flexible Work & Leave Policies"],
+      [data-category="Flexible Work & Leave Policies"] path {
+        fill: var(--color-brand-main-purple);
+        background-color: var(--color-brand-main-purple);
+      }
+      [data-category="Flexible Work & Leave Policies"],
+      [data-category="Flexible Work & Leave Policies"] text {
+        fill: var(--text-color-dark);
+        color: var(--text-color-dark);
+      }
+
+      [data-category="Learning & Assessment"],
+      [data-category="Learning & Assessment"] path {
+        fill: var(--color-frontline-main-tangerine);
+        background-color: var(--color-frontline-main-tangerine);
+      }
+      [data-category="Learning & Assessment"],
+      [data-category="Learning & Assessment"] text {
+        fill: var(--text-color-dark);
+        color: var(--text-color-dark);
+      }
+
+      [data-category="Policy, Advocacy, & Systemic Change"],
+      [data-category="Policy, Advocacy, & Systemic Change"] path {
+        fill: var(--color-frontline-main-teal);
+        background-color: var(--color-frontline-main-teal);
+      }
+      [data-category="Policy, Advocacy, & Systemic Change"],
+      [data-category="Policy, Advocacy, & Systemic Change"] text {
+        fill: var(--text-color-light);
+        color: var(--text-color-light);
+      }
+    </style>
+  `;
+
   return html`
-    <svg viewBox="0 0 ${width} ${height}">
+    <svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
+      <!-- ${inlineStyles} -->
       <g transform="translate(${width / 2}, ${height / 2})">
         <g class="categories">${categoryGroups}</g>
         <g class="petals">${petalGroups}</g>
