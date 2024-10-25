@@ -78,7 +78,7 @@ function Viz() {
 
   // load data
   useEffect(() => {
-    d3.csv(`${ASSET_PATH}/data/solutions-data2.csv`).then((loadedData) => {
+    d3.csv(`${ASSET_PATH}/data/solutions-data.csv`).then((loadedData) => {
       // sort data by category
       loadedData.sort((a, b) => {
         if (a["Category"] < b["Category"]) {
