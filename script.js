@@ -7,7 +7,7 @@ import { useState, useEffect } from "https://esm.sh/preact/hooks";
 import htm from "https://esm.sh/htm";
 
 // set asset path based on environment
-const ENV = "production"; // development or production
+const ENV = "development"; // development or production
 let ASSET_PATH = "";
 if (ENV === "development") {
   console.log("Solutions Viz - Development mode");
@@ -56,11 +56,16 @@ function Viz() {
   // square size
   const width = 1300;
   const height = 1300;
+  const margin = 20;
 
-  const outerRadiusCategories = width / 2 - 20;
-  const innerRadiusCategories = outerRadiusCategories - 27; // 27 is the width of the category arc
-  const outerRadiusPetals = innerRadiusCategories - 32; // 32 is the distance between the category arc and petals
-  const innerRadius = outerRadiusPetals - 290; // 290 is the width of a petal arc
+  const widthCategoryArc = 27;
+  const distanceCategoryArcPetals = 32;
+  const lengthPetals = 290;
+
+  const outerRadiusCategories = width / 2 - margin;
+  const innerRadiusCategories = outerRadiusCategories - widthCategoryArc; // 27 is the width of the category arc
+  const outerRadiusPetals = innerRadiusCategories - distanceCategoryArcPetals; // 32 is the distance between the category arc and petals
+  const innerRadius = outerRadiusPetals - lengthPetals; // 290 is the width of a petal arc
 
   const circlePadding = 0.01;
   const spaceBetweenGroups = 0.04;
