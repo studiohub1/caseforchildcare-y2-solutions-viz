@@ -7,7 +7,7 @@ import { useState, useEffect } from "https://esm.sh/preact/hooks";
 import htm from "https://esm.sh/htm";
 
 // set asset path based on environment
-const ENV = "production"; // development or production
+const ENV = "development"; // development or production
 let ASSET_PATH = "";
 if (ENV === "development") {
   console.log("Solutions Viz - Development mode");
@@ -70,9 +70,18 @@ function Viz() {
 
   // load data
   useEffect(() => {
-    d3.csv(`${ASSET_PATH}/data/solutions-data.csv`).then((loadedData) => {
-      // save data to state
-      // TODO: add sorting for safety in case data changes in file?
+    d3.csv(`${ASSET_PATH}/data/solutions-data2.csv`).then((loadedData) => {
+      // sort data by category
+      loadedData.sort((a, b) => {
+        if (a["Category"] < b["Category"]) {
+          return -1;
+        }
+        if (a["Category"] > b["Category"]) {
+          return 1;
+        }
+        return 0;
+      });
+
       setData(loadedData);
 
       // get unique categories
