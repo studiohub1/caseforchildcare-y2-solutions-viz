@@ -195,6 +195,7 @@ function Viz() {
           data-category="${item["Category"]}"
           data-solution="${item["Solution abbreviation"]}"
           onclick="${() => handlePetalClick(item)}"
+          fill="grey"
         >
           <path d="${petalArc()}" stroke="none" />
           <path
@@ -206,8 +207,9 @@ function Viz() {
           />
           <text
             text-anchor="middle"
-            dominant-baseline="middle"
+            y="5"
             transform="rotate(${petalTextAngle}) translate(${petalTextTranslateX},0)"
+            fill="black"
           >
             ${item["Solution abbreviation"]}
           </text>
@@ -270,7 +272,7 @@ function Viz() {
           : ""}"
         data-category="${petalGroup.category}"
       >
-        <path d="${categoryArc()}" />
+        <path d="${categoryArc()}" fill="grey" />
 
         <defs>
           <path d="${textArc}" id="category-path-${index}" fill="transparent" />

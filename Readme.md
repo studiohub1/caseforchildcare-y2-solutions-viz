@@ -14,3 +14,13 @@
 
 - There is no hard coded category naming logic in the `script.js` file
 - Illustrations are named exactly as the category, so make sure your updated categories have a corresponding illustration svg file in the folder `/assets/illustrations`
+
+## Exporting SVG
+
+- Open into browser inspect tool on tab "Elements", go to SVG element
+- Delete the whole group with the class "innerContent" (because the image element in that group is throwing an error when exported, misses a closing tag)
+- then go to surrounding SVG element, right-click to "Edit as HTML", copy all content
+- then open a new file in your preferred text editor and paste the content, save file as svg
+- import in your design tool of choice
+
+- result is non-colored version of viz as SVG, when imported in Figma text on path for categories gets omitted (due to Figma reasons)
