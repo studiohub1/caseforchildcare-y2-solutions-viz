@@ -7,7 +7,7 @@ import { useState, useEffect } from "https://esm.sh/preact/hooks";
 import htm from "https://esm.sh/htm";
 
 // set asset path based on environment
-const ENV = "development"; // development or production
+const ENV = "production"; // development or production
 let ASSET_PATH = "";
 if (ENV === "development") {
   console.log("Solutions Viz - Development mode");
@@ -63,6 +63,9 @@ function Viz() {
   const innerRadius = outerRadiusPetals - 290; // 290 is the width of a petal arc
 
   const circlePadding = 0.01;
+  const spaceBetweenGroups = 0.04;
+  const spaceBetweenPetalsWithinGroup = 0.01;
+  const cornerRadiusPetals = 15; // before 18
 
   const [data, setData] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -105,90 +108,6 @@ function Viz() {
   }
 
   // translate group to innerRadius then rotate along circle
-  const cornerRadiusPetals = 0; // before 18
-  const petalGroups = data.map((item, index) => {
-    const petalArc = d3
-      .arc()
-      .innerRadius(innerRadius)
-      .outerRadius(outerRadiusPetals)
-      .startAngle(circleScale(index))
-      .endAngle(circleScale(index) + circleScale.bandwidth())
-      .padAngle(circlePadding)
-      .cornerRadius(cornerRadiusPetals);
-
-    // create arc for hover state (no padding), invisible
-    const petalArcHover = d3
-      .arc()
-      .innerRadius(innerRadius)
-      .outerRadius(outerRadiusPetals)
-      .startAngle(circleScale(index))
-      .endAngle(circleScale(index) + circleScale.bandwidth())
-      .padAngle(-1)
-      .cornerRadius(cornerRadiusPetals);
-
-    let petalTextAngle =
-      radiansToDegrees(circleScale(index) + circleScale.bandwidth() / 2) - 90;
-    let petalIconAngleBack =
-      -1 * radiansToDegrees(circleScale(index) + circleScale.bandwidth() / 2) -
-      90 +
-      180;
-    let petalTextTranslateX =
-      innerRadius + (outerRadiusPetals - innerRadius) / 2;
-    let petalButtonTranslateX = innerRadius + 45;
-
-    // flip text if it's on the lower half of the circle
-    if (radiansToDegrees(circleScale(index)) > 180) {
-      petalTextAngle += 180;
-      petalTextTranslateX *= -1;
-      petalButtonTranslateX *= -1;
-      petalIconAngleBack += 180;
-    }
-
-    return html`
-      <g
-        class="petal ${hoveredItem
-          ? hoveredItem === item
-            ? ""
-            : "petal__not_hovered"
-          : ""}"
-        data-category="${item["Category"]}"
-        data-solution="${item["Solution abbreviation"]}"
-        onclick="${() => handlePetalClick(item)}"
-      >
-        <path d="${petalArc()}" stroke="none" />
-        <path
-          d="${petalArcHover()}"
-          opacity="0"
-          onmouseover="${() => setHoveredItem(item)}"
-          onmouseout="${() => setHoveredItem(null)}"
-          stroke="red"
-        />
-        <text
-          text-anchor="middle"
-          dominant-baseline="middle"
-          transform="rotate(${petalTextAngle}) translate(${petalTextTranslateX},0)"
-        >
-          ${item["Solution abbreviation"]}
-        </text>
-        <g
-          class="detail-button-group ${hoveredItem
-            ? hoveredItem === item
-              ? "hovered"
-              : ""
-            : ""}"
-          transform="rotate(${petalTextAngle}) translate(${petalButtonTranslateX},0) rotate(${petalIconAngleBack}) "
-        >
-          <image
-            href="${ASSET_PATH}/illustrations/detail-button.svg"
-            alt="Arrow right"
-            height="30px"
-            width="30px"
-            transform="translate(-15,-15)"
-          />
-        </g>
-      </g>
-    `;
-  });
 
   // inside arc
   const insideArc = d3
@@ -198,15 +117,129 @@ function Viz() {
     .startAngle(0)
     .endAngle(2 * Math.PI);
 
-  const categoryGroups = categories.map((category, index) => {
+  // spaced petal groups
+  const petalGroups = categories.map((category, index) => {
     const categoryData = data.filter((d) => d["Category"] === category);
 
-    const startAngle =
+    const groupStartAngle =
       circleScale(data.indexOf(categoryData[0])) + circlePadding;
-    const endAngle =
+    const groupEndAngle =
       circleScale(data.indexOf(categoryData[categoryData.length - 1])) +
       circleScale.bandwidth() -
       circlePadding;
+
+    const groupScale = d3
+      .scaleBand()
+      .domain(categoryData.map((_, index) => index))
+      .range([
+        groupStartAngle + spaceBetweenGroups,
+        groupEndAngle - spaceBetweenGroups,
+      ])
+      .padding(spaceBetweenPetalsWithinGroup);
+
+    const petals = categoryData.map((item, petalGroupItemIndex) => {
+      const petalArc = d3
+        .arc()
+        .innerRadius(innerRadius)
+        .outerRadius(outerRadiusPetals)
+        .startAngle(groupScale(petalGroupItemIndex))
+        .endAngle(groupScale(petalGroupItemIndex) + groupScale.bandwidth())
+        .padAngle(spaceBetweenPetalsWithinGroup)
+        .cornerRadius(cornerRadiusPetals);
+
+      // create arc for hover state (no padding), invisible
+      const petalArcHover = d3
+        .arc()
+        .innerRadius(innerRadius)
+        .outerRadius(outerRadiusPetals)
+        .startAngle(groupScale(petalGroupItemIndex))
+        .endAngle(groupScale(petalGroupItemIndex) + groupScale.bandwidth())
+        .padAngle(0)
+        .cornerRadius(cornerRadiusPetals);
+
+      let petalTextAngle =
+        radiansToDegrees(
+          groupScale(petalGroupItemIndex) + groupScale.bandwidth() / 2
+        ) - 90;
+      let petalIconAngleBack =
+        -1 *
+          radiansToDegrees(
+            groupScale(petalGroupItemIndex) + groupScale.bandwidth() / 2
+          ) -
+        90 +
+        180;
+      let petalTextTranslateX =
+        innerRadius + (outerRadiusPetals - innerRadius) / 2;
+      let petalButtonTranslateX = innerRadius + 20;
+
+      // flip text if it's on the lower half of the circle
+      if (radiansToDegrees(groupScale(petalGroupItemIndex)) > 180) {
+        petalTextAngle += 180;
+        petalTextTranslateX *= -1;
+        petalButtonTranslateX *= -1;
+        petalIconAngleBack += 180;
+      }
+
+      return html`
+        <g
+          class="petal ${hoveredItem
+            ? hoveredItem === item
+              ? ""
+              : "petal__not_hovered"
+            : ""}"
+          data-category="${item["Category"]}"
+          data-solution="${item["Solution abbreviation"]}"
+          onclick="${() => handlePetalClick(item)}"
+        >
+          <path d="${petalArc()}" stroke="none" />
+          <path
+            d="${petalArcHover()}"
+            opacity="0"
+            onmouseover="${() => setHoveredItem(item)}"
+            onmouseout="${() => setHoveredItem(null)}"
+            stroke="red"
+          />
+          <text
+            text-anchor="middle"
+            dominant-baseline="middle"
+            transform="rotate(${petalTextAngle}) translate(${petalTextTranslateX},0)"
+          >
+            ${item["Solution abbreviation"]}
+          </text>
+          <g
+            class="detail-button-group ${hoveredItem
+              ? hoveredItem === item
+                ? "hovered"
+                : ""
+              : ""}"
+            transform="rotate(${petalTextAngle}) translate(${petalButtonTranslateX},0) rotate(${petalIconAngleBack}) "
+          >
+            <image
+              href="${ASSET_PATH}/illustrations/detail-button.svg"
+              alt="Arrow right"
+              height="30px"
+              width="30px"
+              transform="translate(-15,-15)"
+            />
+          </g>
+        </g>
+      `;
+    });
+
+    return {
+      category: category,
+      categoryStartAngle: groupStartAngle,
+      categoryEndAngle: groupEndAngle,
+      categoryData: categoryData,
+      groupScale: groupScale,
+      petals: petals,
+    };
+  });
+
+  // category arcs
+  const categoryGroups = petalGroups.map((petalGroup, index) => {
+    const startAngle = petalGroup.categoryStartAngle + spaceBetweenGroups;
+    const endAngle = petalGroup.categoryEndAngle - spaceBetweenGroups;
 
     const categoryArc = d3
       .arc()
@@ -216,16 +249,20 @@ function Viz() {
       .endAngle(endAngle);
 
     // create arc for textPath (no return line and flipped if on lower half of circle)
-    const textArc = getArcForTextPlacement(categoryArc(), startAngle, category);
+    const textArc = getArcForTextPlacement(
+      categoryArc(),
+      startAngle,
+      petalGroup.category
+    );
 
     return html`
       <g
         class="category ${hoveredItem
-          ? hoveredItem["Category"] === category
+          ? hoveredItem["Category"] === petalGroup.category
             ? ""
             : "category__not_hovered"
           : ""}"
-        data-category="${category}"
+        data-category="${petalGroup.category}"
       >
         <path d="${categoryArc()}" />
 
@@ -243,7 +280,7 @@ function Viz() {
             href="#category-path-${index}"
             startOffset="50%"
             text-anchor="middle"
-            >${category}</textPath
+            >${petalGroup.category}</textPath
           >
         </text>
       </g>
@@ -493,7 +530,11 @@ function Viz() {
       <!-- ${inlineStyles} -->
       <g transform="translate(${width / 2}, ${height / 2})">
         <g class="categories">${categoryGroups}</g>
-        <g class="petals">${petalGroups}</g>
+        <g class="petalGroups">
+          ${petalGroups.map((petalGroup) => {
+            return html` <g class="petalGroup">${petalGroup.petals}</g> `;
+          })}
+        </g>
         <g class="innerContent">
           <g transform="translate(-${innerRadius - 20},-${innerRadius - 20})">
             <foreignObject
@@ -506,7 +547,7 @@ function Viz() {
             </foreignObject>
           </g>
         </g>
-        <path d=${insideArc()} fill="#E8E8E8" stroke="#E8E8E8" />
+        <!-- <path d=${insideArc()} fill="#E8E8E8" stroke="#E8E8E8" /> -->
       </g>
     </svg>
   `;
