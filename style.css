@@ -67,6 +67,7 @@
 #solution-viz .innerContent .innerContent__default {
   justify-content: center;
   row-gap: 24px;
+  padding-top: 8px;
 }
 #solution-viz .innerContent .title {
   font-family: "VC Henrietta", sans-serif;
