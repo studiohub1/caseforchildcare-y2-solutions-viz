@@ -1,11 +1,22 @@
 /***** color variables ********/
 #solution-viz {
-  --color-brand-main-purple: #d6b9ff;
+  --color-frontline-main-violet: #d6b9ff;
+  --color-frontline-main-violetdeep: #6a3daa;
+
   --color-frontline-main-coral: #e0594f;
+  --color-frontline-main-coraldeep: #b63b32;
+
   --color-frontline-main-plum: #733250;
+  --color-frontline-main-plumdeep: #5d1e3b;
+
   --color-frontline-main-green: #99d68f;
+  --color-frontline-main-greendeep: #3d6537;
+
   --color-frontline-main-tangerine: #ff8a53;
+  --color-frontline-main-tangerinedeep: #bc592a;
+
   --color-frontline-main-teal: #2b91ad;
+  --color-frontline-main-tealdeep: #0b5d73;
 
   --text-color-dark: #202124;
   --text-color-light: #ffffff;
@@ -40,8 +51,8 @@
   transition: opacity 0.5s ease;
   font-size: 16px;
 }
-#solution-viz .category.category__not_hovered {
-  opacity: 0.24;
+#solution-viz .category path {
+  opacity: 0.2;
 }
 
 #solution-viz .detail-button-group image {
@@ -131,6 +142,7 @@
   fill: gray;
 }
 
+/* category 1 */
 #solution-viz [data-category="Direct Care Solutions"],
 #solution-viz [data-category="Direct Care Solutions"] path {
   fill: var(--color-frontline-main-coral);
@@ -141,7 +153,11 @@
   fill: var(--text-color-light);
   color: var(--text-color-light);
 }
+#solution-viz [data-category="Direct Care Solutions"] text.cat-text {
+  fill: var(--color-frontline-main-coraldeep);
+}
 
+/* category 2 */
 #solution-viz [data-category="Employee Engagement & Culture"],
 #solution-viz [data-category="Employee Engagement & Culture"] path {
   fill: var(--color-frontline-main-green);
@@ -152,7 +168,11 @@
   fill: var(--text-color-dark);
   color: var(--text-color-dark);
 }
+#solution-viz [data-category="Employee Engagement & Culture"] text.cat-text {
+  fill: var(--color-frontline-main-greendeep);
+}
 
+/* category 3 */
 #solution-viz [data-category="Financial Support & Benefits"],
 #solution-viz [data-category="Financial Support & Benefits"] path {
   fill: var(--color-frontline-main-plum);
@@ -163,18 +183,29 @@
   fill: var(--text-color-light);
   color: var(--text-color-light);
 }
+#solution-viz [data-category="Financial Support & Benefits"] text.cat-text {
+  fill: var(--color-frontline-main-plumdeep);
+}
+#solution-viz .category[data-category="Financial Support & Benefits"] path {
+  opacity: 0.1;
+}
 
+/* category 4 */
 #solution-viz [data-category="Flexible Work & Leave Policies"],
 #solution-viz [data-category="Flexible Work & Leave Policies"] path {
-  fill: var(--color-brand-main-purple);
-  background-color: var(--color-brand-main-purple);
+  fill: var(--color-frontline-main-violet);
+  background-color: var(--color-frontline-main-violet);
 }
 #solution-viz [data-category="Flexible Work & Leave Policies"],
 #solution-viz [data-category="Flexible Work & Leave Policies"] text {
   fill: var(--text-color-dark);
   color: var(--text-color-dark);
 }
+#solution-viz [data-category="Flexible Work & Leave Policies"] text.cat-text {
+  fill: var(--color-frontline-main-violetdeep);
+}
 
+/* category 5 */
 #solution-viz [data-category="Learning & Assessment"],
 #solution-viz [data-category="Learning & Assessment"] path {
   fill: var(--color-frontline-main-tangerine);
@@ -185,7 +216,11 @@
   fill: var(--text-color-dark);
   color: var(--text-color-dark);
 }
+#solution-viz [data-category="Learning & Assessment"] text.cat-text {
+  fill: var(--color-frontline-main-tangerinedeep);
+}
 
+/* category 6 */
 #solution-viz [data-category="Policy, Advocacy, & Systemic Change"],
 #solution-viz [data-category="Policy, Advocacy, & Systemic Change"] path {
   fill: var(--color-frontline-main-teal);
@@ -195,4 +230,9 @@
 #solution-viz [data-category="Policy, Advocacy, & Systemic Change"] text {
   fill: var(--text-color-light);
   color: var(--text-color-light);
+}
+#solution-viz
+  [data-category="Policy, Advocacy, & Systemic Change"]
+  text.cat-text {
+  fill: var(--color-frontline-main-tealdeep);
 }

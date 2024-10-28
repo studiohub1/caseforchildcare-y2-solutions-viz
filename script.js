@@ -286,6 +286,7 @@ function Viz() {
           <path d="${textArc}" id="category-path-${index}" fill="transparent" />
         </defs>
         <text
+          class="cat-text"
           dominant-baseline="hanging"
           dy="${radiansToDegrees(startAngle) > 90 &&
           radiansToDegrees(startAngle) < 270
