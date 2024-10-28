@@ -99,7 +99,7 @@ function Viz() {
           setIsInView(entry.isIntersecting);
         });
       },
-      { threshold: 0.6 }
+      { threshold: 0.5 }
     );
 
     if (vizRef.current) {

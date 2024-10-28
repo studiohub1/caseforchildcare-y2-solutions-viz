@@ -20,6 +20,8 @@
 
   --text-color-dark: #202124;
   --text-color-light: #ffffff;
+
+  --transition-text: opacity 2s ease 1s;
 }
 
 /* viz container */
@@ -34,16 +36,27 @@
   font-style: normal;
   transition: transform 1.5s ease-in-out 0.6s;
 }
-// transition for text when viz in view or
+// transition for text when viz in view or not (petals)
 #solution-viz svg text.petal-text {
-  transition: opacity 2s ease 1s;
+  transition: var(--transition-text);
 }
 #solution-viz svg.not-in-view text {
-  transition: opacity 2s ease 1s;
+  transition: var(--transition-text);
   opacity: 0;
 }
 #solution-viz svg.in-view text {
-  transition: opacity 2s ease 1s;
+  transition: var(--transition-text);
+  opacity: 1;
+}
+
+#solution-viz svg.not-in-view .innerContent__default .subtitle,
+#solution-viz svg.not-in-view .innerContent__default .hover-image {
+  transition: var(--transition-text);
+  opacity: 0;
+}
+#solution-viz svg.in-view .innerContent__default .subtitle,
+#solution-viz svg.in-view .innerContent__default .hover-image {
+  transition: var(--transition-text);
   opacity: 1;
 }
 
