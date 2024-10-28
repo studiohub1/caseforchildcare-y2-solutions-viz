@@ -32,6 +32,19 @@
   font-family: "Poppins", sans-serif;
   font-weight: 400;
   font-style: normal;
+  transition: transform 1.5s ease-in-out 0.6s;
+}
+// transition for text when viz in view or
+#solution-viz svg text.petal-text {
+  transition: opacity 2s ease 1s;
+}
+#solution-viz svg.not-in-view text {
+  transition: opacity 2s ease 1s;
+  opacity: 0;
+}
+#solution-viz svg.in-view text {
+  transition: opacity 2s ease 1s;
+  opacity: 1;
 }
 
 /***** petals ******/

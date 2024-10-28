@@ -3,7 +3,7 @@
 // https://studio.datacult.com/
 
 import { h, render } from "https://esm.sh/preact";
-import { useState, useEffect } from "https://esm.sh/preact/hooks";
+import { useState, useEffect, useRef } from "https://esm.sh/preact/hooks";
 import htm from "https://esm.sh/htm";
 
 // set asset path based on environment
@@ -42,16 +42,22 @@ function getArcForTextPlacement(angle, arcDefault, arcReversed) {
 }
 
 function Viz() {
+  // state
+  const [data, setData] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [hoveredItem, setHoveredItem] = useState(null);
+  const [isInView, setIsInView] = useState(false);
+  const vizRef = useRef(null);
+
   // square size
-  const width = 1300;
-  const height = 1300;
+  const squareSize = 1300;
   const margin = 20;
 
   const widthCategoryArc = 27;
   const distanceCategoryArcPetals = 32;
   const lengthPetals = 290;
 
-  const outerRadiusCategories = width / 2 - margin;
+  const outerRadiusCategories = squareSize / 2 - margin;
   const innerRadiusCategories = outerRadiusCategories - widthCategoryArc; // 27 is the width of the category arc
   const outerRadiusPetals = innerRadiusCategories - distanceCategoryArcPetals; // 32 is the distance between the category arc and petals
   const innerRadius = outerRadiusPetals - lengthPetals; // 290 is the width of a petal arc
@@ -60,10 +66,6 @@ function Viz() {
   const spaceBetweenGroups = 0.035;
   const spaceBetweenPetalsWithinGroup = 0.01;
   const cornerRadiusPetals = 15; // before 18
-
-  const [data, setData] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [hoveredItem, setHoveredItem] = useState(null);
 
   // load data
   useEffect(() => {
@@ -89,6 +91,28 @@ function Viz() {
     });
   }, []);
 
+  // Intersection Observer to check if Viz is in view
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setIsInView(entry.isIntersecting);
+        });
+      },
+      { threshold: 0.8 }
+    );
+
+    if (vizRef.current) {
+      observer.observe(vizRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  console.log("in view", isInView);
+
   // scale to position petals in a circle
   const circleScale = d3
     .scaleBand()
@@ -100,16 +124,6 @@ function Viz() {
     // open modal with item details, TODO: implement in Webflow
     console.log(item);
   }
-
-  // translate group to innerRadius then rotate along circle
-
-  // inside arc
-  const insideArc = d3
-    .arc()
-    .innerRadius(innerRadius)
-    .outerRadius(innerRadius + 24)
-    .startAngle(0)
-    .endAngle(2 * Math.PI);
 
   // spaced petal groups
   const petalGroups = categories.map((category, index) => {
@@ -199,6 +213,7 @@ function Viz() {
             y="5"
             transform="rotate(${petalTextAngle}) translate(${petalTextTranslateX},0)"
             fill="black"
+            class="petal-text"
           >
             ${item["Solution abbreviation"]}
           </text>
@@ -346,29 +361,48 @@ function Viz() {
     : innerContentDefault;
 
   return html`
-    <svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">
-      <g transform="translate(${width / 2}, ${height / 2})">
-        <g class="categories">${categoryGroups}</g>
-        <g class="petalGroups">
-          ${petalGroups.map((petalGroup) => {
-            return html` <g class="petalGroup">${petalGroup.petals}</g> `;
-          })}
-        </g>
-        <g class="innerContent">
-          <g transform="translate(-${innerRadius - 20},-${innerRadius - 20})">
-            <foreignObject
-              x="0"
-              y="0"
-              width="${innerRadius * 2 - 40}"
-              height="${innerRadius * 2 - 40}"
-            >
-              ${innerContent}
-            </foreignObject>
+    <div ref=${vizRef}>
+      <svg
+        viewBox="0 0 ${squareSize} ${squareSize}"
+        xmlns="http://www.w3.org/2000/svg"
+        transform="scale(${isInView ? 1 : 0.5})"
+        class="${isInView ? "in-view" : "not-in-view"}"
+      >
+        <g transform="translate(${squareSize / 2}, ${squareSize / 2})">
+          <g class="categories">${categoryGroups}</g>
+          <g class="petalGroups">
+            ${petalGroups.map((petalGroup) => {
+              return html` <g class="petalGroup">${petalGroup.petals}</g> `;
+            })}
+          </g>
+          <g class="innerContent">
+            <g transform="translate(-${innerRadius - 20},-${innerRadius - 20})">
+              <foreignObject
+                x="0"
+                y="0"
+                width="${innerRadius * 2 - 40}"
+                height="${innerRadius * 2 - 40}"
+              >
+                ${innerContent}
+              </foreignObject>
+            </g>
           </g>
         </g>
-        <!-- <path d=${insideArc()} fill="#E8E8E8" stroke="#E8E8E8" /> -->
-      </g>
-    </svg>
+      </svg>
+    </div>
+  `;
+}
+
+function Page() {
+  const lorem =
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac";
+
+  return html`
+    <div class="page">
+      <h1>Page</h1>
+      ${Array(28).fill(html`<p>${lorem}</p>`)} ${html`<${Viz} />`}
+      ${Array(28).fill(html`<p>${lorem}</p>`)}
+    </div>
   `;
 }
 
