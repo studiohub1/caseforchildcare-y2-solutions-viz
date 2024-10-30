@@ -129,7 +129,9 @@ function Viz() {
     const selectedNavItem = document.querySelector(
       `.solution-details__nav-item[solution-id="${item["Solution ID"]}"]`
     );
-    selectedNavItem.classList.add("selected");
+    if (selectedNavItem) {
+      selectedNavItem.classList.add("selected");
+    }
 
     // in detail view, show correct solution details
     const detailGroupItems = document.querySelectorAll(
@@ -141,7 +143,9 @@ function Viz() {
     const selectedGroupItem = document.querySelector(
       `.solution-details__group[solution-id="${item["Solution ID"]}"]`
     );
-    selectedGroupItem.classList.add("shown");
+    if (selectedGroupItem) {
+      selectedGroupItem.classList.add("shown");
+    }
   }
 
   // spaced petal groups
