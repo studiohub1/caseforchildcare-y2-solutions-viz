@@ -111,8 +111,6 @@ function Viz() {
     };
   }, []);
 
-  console.log("in view", isInView);
-
   // scale to position petals in a circle
   const circleScale = d3
     .scaleBand()
@@ -121,8 +119,29 @@ function Viz() {
     .padding(circlePadding);
 
   function handlePetalClick(item) {
-    // open modal with item details, TODO: implement in Webflow
-    console.log(item);
+    // in detail view, show correct nav item as selected
+    const detailNavItems = document.querySelectorAll(
+      ".solution-details__nav-item"
+    );
+    detailNavItems.forEach((navItem) => {
+      navItem.classList.remove("selected");
+    });
+    const selectedNavItem = document.querySelector(
+      `.solution-details__nav-item[solution-id="${item["Solution ID"]}"]`
+    );
+    selectedNavItem.classList.add("selected");
+
+    // in detail view, show correct solution details
+    const detailGroupItems = document.querySelectorAll(
+      ".solution-details__group"
+    );
+    detailGroupItems.forEach((groupItem) => {
+      groupItem.classList.remove("shown");
+    });
+    const selectedGroupItem = document.querySelector(
+      `.solution-details__group[solution-id="${item["Solution ID"]}"]`
+    );
+    selectedGroupItem.classList.add("shown");
   }
 
   // spaced petal groups
