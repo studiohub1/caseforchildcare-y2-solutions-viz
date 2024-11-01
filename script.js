@@ -185,8 +185,9 @@ function Viz() {
       const categoryName = navGroup.getAttribute("category");
       // get the solutions in the category
       const categorySolutions = data.filter(
-        (d) => d["Category"] === categoryName
+        (d) => d["Category"].toLowerCase() === categoryName.toLowerCase()
       );
+      console.log("**** categorySolutions", categorySolutions);
       // add the solutions to the nav group
       categorySolutions.forEach((solution) => {
         navGroup.innerHTML += `
