@@ -127,7 +127,7 @@ function Viz() {
       groupItem.classList.remove("shown");
     });
     const selectedGroupItem = document.querySelector(
-      `.solution-details__group[solution-id="${item["Solution ID"]}"]`
+      `.solution-details__group[solution-id="${solutionId}"]`
     );
     if (selectedGroupItem) {
       selectedGroupItem.classList.add("shown");

@@ -36,6 +36,13 @@
   font-style: normal;
   transition: transform 1.5s ease-in-out 0.6s;
 }
+
+@media (max-width: 991px) {
+  #solution-viz svg {
+    pointer-events: none;
+  }
+}
+
 // transition for text when viz in view or not (petals)
 #solution-viz svg text.petal-text {
   transition: var(--transition-text);
