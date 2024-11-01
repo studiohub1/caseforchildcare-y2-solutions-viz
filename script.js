@@ -202,7 +202,10 @@ function Viz() {
       });
     });
   }
-  fixDetailViewNavItems();
+
+  useEffect(() => {
+    fixDetailViewNavItems();
+  }, []);
 
   // spaced petal groups
   const petalGroups = categories.map((category, index) => {
