@@ -144,6 +144,7 @@ function Viz() {
     const detailNavItems = document.querySelectorAll(
       ".solution-details__nav-item"
     );
+    console.log("detailNavItems, on petal click", detailNavItems);
     detailNavItems.forEach((navItem) => {
       navItem.classList.remove("selected");
     });
@@ -180,7 +181,7 @@ function Viz() {
     console.log("*** detailNavGroups", detailNavGroups);
     detailNavGroups.forEach((navGroup) => {
       // remove everything from the nav group
-      navGroup.innerHTML = "";
+      // navGroup.innerHTML = "";
       // get the category name
       const categoryName = navGroup.getAttribute("category");
       // get the solutions in the category
