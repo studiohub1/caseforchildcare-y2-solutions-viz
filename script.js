@@ -178,6 +178,35 @@ function Viz() {
     });
   }
 
+  const categoryColors = {
+    violet: "#d6b9ff",
+    violetdeep: "#6a3daa",
+
+    coral: "#e0594f",
+    coraldeep: "#b63b32",
+
+    plum: "#733250",
+    plumdeep: "#5d1e3b",
+
+    green: "#99d68f",
+    greendeep: "#3d6537",
+
+    tangerine: "#ff8a53",
+    tangerinedeep: "#bc592a",
+
+    teal: "#2b91ad",
+    tealdeep: "#0b5d73",
+  };
+
+  const categoryColorsWithNames = {
+    "direct care solutions": "coral",
+    "employee engagement & culture": "green",
+    "financial support & benefits": "plum",
+    "flexible work & leave policies": "violet",
+    "learning & assessment": "tangerine",
+    "policy, advocacy, & systemic change": "teal",
+  };
+
   // avoid issue of Webflow nested CMS issue that limits nested collection list items to 5
   function fixDetailViewNavItems(loadedData) {
     const detailNavGroups = document.querySelectorAll(
@@ -196,9 +225,13 @@ function Viz() {
       console.log("**** categorySolutions", categorySolutions);
       // add the solutions to the nav group
       categorySolutions.forEach((solution) => {
+        const colorName = categoryColorsWithNames[categoryName.toLowerCase()];
+        console.log("colorName", colorName);
+        const borderColor = categoryColors[colorName];
+        const textColor = categoryColors[`${colorName}deep`];
         navGroup.innerHTML += `
-          <div class="solution-details__nav-item w-dyn-item" role="listitem" solution-id="${solution["Solution ID"]}" style="border-color: blue">
-            <div class="p-small" style="color:darkblue">${solution["Solution abbreviation"]}</div>
+          <div class="solution-details__nav-item w-dyn-item" role="listitem" solution-id="${solution["Solution ID"]}" style="border-color:${borderColor}">
+            <div class="p-small" style="color:${textColor}">${solution["Solution abbreviation"]}</div>
           </div>
         `;
       });
