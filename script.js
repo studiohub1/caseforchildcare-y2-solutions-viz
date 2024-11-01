@@ -220,6 +220,7 @@ function Viz() {
             : ""}"
           data-category="${item["Category"]}"
           data-solution="${item["Solution abbreviation"]}"
+          solution-id="${item["Solution ID"]}"
           onclick="${() => handlePetalClick(item)}"
           fill="grey"
         >
