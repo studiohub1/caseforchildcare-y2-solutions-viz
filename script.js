@@ -136,6 +136,8 @@ function Viz() {
 
   // interaction with detail view coded in Webflow
   function handlePetalClick(item) {
+    console.log("petal clicked", item);
+
     // show the solution details modal
     const solutionsModal = document.getElementById("solution-details");
     solutionsModal.style.display = "flex";
@@ -144,7 +146,6 @@ function Viz() {
     const detailNavItems = document.querySelectorAll(
       ".solution-details__nav-item"
     );
-    console.log("detailNavItems, on petal click", detailNavItems);
     detailNavItems.forEach((navItem) => {
       navItem.classList.remove("selected");
     });
@@ -158,6 +159,8 @@ function Viz() {
     showSolutionDetailGroup(item["Solution ID"]);
 
     // in detail view, on click in the nav
+    console.log("detailNavItems, on petal click", detailNavItems);
+
     detailNavItems.forEach((navItem) => {
       navItem.onclick = function () {
         console.log("nav item clicked", navItem);
@@ -181,7 +184,7 @@ function Viz() {
     console.log("*** detailNavGroups", detailNavGroups);
     detailNavGroups.forEach((navGroup) => {
       // remove everything from the nav group
-      // navGroup.innerHTML = "";
+      navGroup.innerHTML = "";
       // get the category name
       const categoryName = navGroup.getAttribute("category");
       // get the solutions in the category
@@ -192,10 +195,8 @@ function Viz() {
       // add the solutions to the nav group
       categorySolutions.forEach((solution) => {
         navGroup.innerHTML += `
-          <div class="solution-details__nav-item w-dyn-item" role="listitem" solution-id="${solution["Solution ID"]}">
-            <div class="p-small">
-            ${solution["Solution abbreviation"]}
-            </div>
+          <div class="solution-details__nav-item w-dyn-item" role="listitem" solution-id="${solution["Solution ID"]}" style="border-color: blue">
+            <div class="p-small" style="color:darkblue">${solution["Solution abbreviation"]}</div>
           </div>
         `;
       });
