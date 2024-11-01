@@ -134,6 +134,7 @@ function Viz() {
     }
   }
 
+  // interaction with detail view coded in Webflow
   function handlePetalClick(item) {
     // show the solution details modal
     const solutionsModal = document.getElementById("solution-details");
@@ -170,6 +171,35 @@ function Viz() {
       };
     });
   }
+
+  // avoid issue of Webflow nested CMS issue that limits nested collection list items to 5
+  function fixDetailViewNavItems() {
+    const detailNavGroups = document.querySelectorAll(
+      ".solution-details__nav-group"
+    );
+    console.log("*** detailNavGroups", detailNavGroups);
+    detailNavGroups.forEach((navGroup) => {
+      // remove everything from the nav group
+      navGroup.innerHTML = "";
+      // get the category name
+      const categoryName = navGroup.getAttribute("category");
+      // get the solutions in the category
+      const categorySolutions = data.filter(
+        (d) => d["Category"] === categoryName
+      );
+      // add the solutions to the nav group
+      categorySolutions.forEach((solution) => {
+        navGroup.innerHTML += `
+          <div class="solution-details__nav-item w-dyn-item" role="listitem" solution-id="${solution["Solution ID"]}">
+            <div class="p-small">
+            ${solution["Solution abbreviation"]}
+            </div>
+          </div>
+        `;
+      });
+    });
+  }
+  fixDetailViewNavItems();
 
   // spaced petal groups
   const petalGroups = categories.map((category, index) => {
