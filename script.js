@@ -119,6 +119,10 @@ function Viz() {
     .padding(circlePadding);
 
   function handlePetalClick(item) {
+    // show the solution details modal
+    const solutionsModal = document.getElementById("solution-details");
+    solutionsModal.style.display = "flex";
+
     // in detail view, show correct nav item as selected
     const detailNavItems = document.querySelectorAll(
       ".solution-details__nav-item"
