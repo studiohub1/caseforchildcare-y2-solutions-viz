@@ -138,8 +138,6 @@ function Viz() {
 
   // interaction with detail view coded in Webflow
   function handlePetalClick(item) {
-    console.log("petal clicked", item);
-
     // show the solution details modal
     const solutionsModal = document.getElementById("solution-details");
     solutionsModal.style.display = "flex";
@@ -161,8 +159,6 @@ function Viz() {
     showSolutionDetailGroup(item["Solution ID"]);
 
     // in detail view, on click in the nav
-    console.log("detailNavItems, on petal click", detailNavItems);
-
     detailNavItems.forEach((navItem) => {
       navItem.onclick = function () {
         console.log("nav item clicked", navItem);
@@ -212,7 +208,6 @@ function Viz() {
     const detailNavGroups = document.querySelectorAll(
       ".solution-details__nav-group"
     );
-    console.log("*** detailNavGroups", detailNavGroups);
     detailNavGroups.forEach((navGroup) => {
       // remove everything from the nav group
       navGroup.innerHTML = "";
@@ -222,11 +217,9 @@ function Viz() {
       const categorySolutions = loadedData.filter(
         (d) => d["Category"].toLowerCase() === categoryName.toLowerCase()
       );
-      console.log("**** categorySolutions", categorySolutions);
       // add the solutions to the nav group
       categorySolutions.forEach((solution) => {
         const colorName = categoryColorsWithNames[categoryName.toLowerCase()];
-        console.log("colorName", colorName);
         const borderColor = categoryColors[colorName];
         const textColor = categoryColors[`${colorName}deep`];
         navGroup.innerHTML += `
