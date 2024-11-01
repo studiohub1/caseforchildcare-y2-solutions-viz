@@ -118,26 +118,8 @@ function Viz() {
     .range([0, 2 * Math.PI])
     .padding(circlePadding);
 
-  function handlePetalClick(item) {
-    // show the solution details modal
-    const solutionsModal = document.getElementById("solution-details");
-    solutionsModal.style.display = "flex";
-
-    // in detail view, show correct nav item as selected
-    const detailNavItems = document.querySelectorAll(
-      ".solution-details__nav-item"
-    );
-    detailNavItems.forEach((navItem) => {
-      navItem.classList.remove("selected");
-    });
-    const selectedNavItem = document.querySelector(
-      `.solution-details__nav-item[solution-id="${item["Solution ID"]}"]`
-    );
-    if (selectedNavItem) {
-      selectedNavItem.classList.add("selected");
-    }
-
-    // in detail view, show correct solution details
+  // in detail view, show correct solution details
+  function showSolutionDetailGroup(solutionId) {
     const detailGroupItems = document.querySelectorAll(
       ".solution-details__group"
     );
@@ -150,6 +132,40 @@ function Viz() {
     if (selectedGroupItem) {
       selectedGroupItem.classList.add("shown");
     }
+  }
+
+  function handlePetalClick(item) {
+    // show the solution details modal
+    const solutionsModal = document.getElementById("solution-details");
+    solutionsModal.style.display = "flex";
+
+    // in detail view, show correct nav item as selected (on click in the petal)
+    const detailNavItems = document.querySelectorAll(
+      ".solution-details__nav-item"
+    );
+    detailNavItems.forEach((navItem) => {
+      navItem.classList.remove("selected");
+    });
+    const selectedNavItem = document.querySelector(
+      `.solution-details__nav-item[solution-id="${item["Solution ID"]}"]`
+    );
+    if (selectedNavItem) {
+      selectedNavItem.classList.add("selected");
+    }
+    // in detail view, show correct solution details (on click in the petal)
+    showSolutionDetailGroup(item["Solution ID"]);
+
+    // in detail view, on click in the nav
+    detailNavItems.onclick = function () {
+      // have the correct nav item selected
+      detailNavItems.forEach((navItem) => {
+        navItem.classList.remove("selected");
+      });
+      this.classList.add("selected");
+
+      // change the detail content to the correct group
+      showSolutionDetailGroup(this.getAttribute("solution-id"));
+    };
   }
 
   // spaced petal groups
