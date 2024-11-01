@@ -156,16 +156,19 @@ function Viz() {
     showSolutionDetailGroup(item["Solution ID"]);
 
     // in detail view, on click in the nav
-    detailNavItems.onclick = function () {
-      // have the correct nav item selected
-      detailNavItems.forEach((navItem) => {
-        navItem.classList.remove("selected");
-      });
-      this.classList.add("selected");
+    detailNavItems.forEach((navItem) => {
+      navItem.onclick = function () {
+        console.log("nav item clicked", navItem);
+        // have the correct nav item selected
+        detailNavItems.forEach((navItem) => {
+          navItem.classList.remove("selected");
+        });
+        navItem.classList.add("selected");
 
-      // change the detail content to the correct group
-      showSolutionDetailGroup(this.getAttribute("solution-id"));
-    };
+        // change the detail content to the correct group
+        showSolutionDetailGroup(navItem.getAttribute("solution-id"));
+      };
+    });
   }
 
   // spaced petal groups
