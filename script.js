@@ -88,6 +88,8 @@ function Viz() {
         new Set(loadedData.map((d) => d["Category"]))
       );
       setCategories(uniqueCategories);
+
+      fixDetailViewNavItems(loadedData);
     });
   }, []);
 
@@ -177,7 +179,7 @@ function Viz() {
   }
 
   // avoid issue of Webflow nested CMS issue that limits nested collection list items to 5
-  function fixDetailViewNavItems() {
+  function fixDetailViewNavItems(loadedData) {
     const detailNavGroups = document.querySelectorAll(
       ".solution-details__nav-group"
     );
@@ -188,7 +190,7 @@ function Viz() {
       // get the category name
       const categoryName = navGroup.getAttribute("category");
       // get the solutions in the category
-      const categorySolutions = data.filter(
+      const categorySolutions = loadedData.filter(
         (d) => d["Category"].toLowerCase() === categoryName.toLowerCase()
       );
       console.log("**** categorySolutions", categorySolutions);
@@ -202,10 +204,6 @@ function Viz() {
       });
     });
   }
-
-  useEffect(() => {
-    fixDetailViewNavItems();
-  }, []);
 
   // spaced petal groups
   const petalGroups = categories.map((category, index) => {
