@@ -170,6 +170,15 @@ function Viz() {
 
         // change the detail content to the correct group
         showSolutionDetailGroup(navItem.getAttribute("solution-id"));
+
+        // on tablet and down, hide the nav and show the details
+        if (window.innerWidth <= 991) {
+          document.querySelector(".solution-details__nav").style.display =
+            "none";
+          document.querySelector(
+            ".solution-details__group-wrapper"
+          ).style.display = "block";
+        }
       };
     });
   }
