@@ -138,6 +138,7 @@ function Viz() {
 
   // interaction with detail view coded in Webflow
   function handlePetalClick(item) {
+    console.log("handlePetalClick", item);
     // show the solution details modal
     const solutionsModal = document.getElementById("solution-details");
     solutionsModal.style.display = "flex";
@@ -157,30 +158,6 @@ function Viz() {
     }
     // in detail view, show correct solution details (on click in the petal)
     showSolutionDetailGroup(item["Solution ID"]);
-
-    // in detail view, on click in the nav
-    detailNavItems.forEach((navItem) => {
-      navItem.onclick = function () {
-        console.log("nav item clicked", navItem);
-        // have the correct nav item selected
-        detailNavItems.forEach((navItem) => {
-          navItem.classList.remove("selected");
-        });
-        navItem.classList.add("selected");
-
-        // change the detail content to the correct group
-        showSolutionDetailGroup(navItem.getAttribute("solution-id"));
-
-        // on tablet and down, hide the nav and show the details
-        if (window.innerWidth <= 991) {
-          document.querySelector(".solution-details__nav").style.display =
-            "none";
-          document.querySelector(
-            ".solution-details__group-wrapper"
-          ).style.display = "block";
-        }
-      };
-    });
   }
 
   const categoryColors = {
@@ -214,6 +191,7 @@ function Viz() {
 
   // avoid issue of Webflow nested CMS issue that limits nested collection list items to 5
   function fixDetailViewNavItems(loadedData) {
+    console.log("fixDetailViewNavItems");
     const detailNavGroups = document.querySelectorAll(
       ".solution-details__nav-group"
     );
@@ -237,6 +215,34 @@ function Viz() {
           </div>
         `;
       });
+    });
+
+    // in detail view, on click in the nav
+    const detailNavItems = document.querySelectorAll(
+      ".solution-details__nav-item"
+    );
+    detailNavItems.forEach((navItem) => {
+      console.log("add onclick handlers to nav items", navItem);
+      navItem.onclick = function () {
+        console.log("nav item clicked", navItem);
+        // have the correct nav item selected
+        detailNavItems.forEach((navItem) => {
+          navItem.classList.remove("selected");
+        });
+        navItem.classList.add("selected");
+
+        // change the detail content to the correct group
+        showSolutionDetailGroup(navItem.getAttribute("solution-id"));
+
+        // on tablet and down, hide the nav and show the details
+        if (window.innerWidth <= 991) {
+          document.querySelector(".solution-details__nav").style.display =
+            "none";
+          document.querySelector(
+            ".solution-details__group-wrapper"
+          ).style.display = "block";
+        }
+      };
     });
   }
 
