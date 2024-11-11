@@ -153,6 +153,7 @@ function Viz() {
     const solutionResources = resourcesData.filter(
       (d) => d["Solution ID"] === solutionId
     );
+    console.log("resourcesData", resourcesData);
     console.log("solutionResources", solutionResources);
 
     const backgroundColor = "#f5f5f5";
