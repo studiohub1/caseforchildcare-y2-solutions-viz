@@ -257,7 +257,7 @@ function Viz() {
       const backgroundColor = categoryColors[colorName];
       const textColor = "black";
 
-      const casesContentHtml = solutionCases
+      let casesContentHtml = solutionCases
         .map((caseStudy) => {
           return `<div
               style="border-color:${backgroundColor}"
