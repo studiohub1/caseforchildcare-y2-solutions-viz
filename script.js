@@ -254,7 +254,6 @@ function Viz() {
 
       const colorName = categoryColorsWithNames[categoryName.toLowerCase()];
       const transparentColor = categoryColors[`${colorName}transparent`];
-      const outerTextColor = categoryColors[`${colorName}deep`];
       const backgroundColor = "#f5f5f5";
       const textColor = "black";
 
@@ -265,9 +264,7 @@ function Viz() {
               class="w-layout-vflex solution-details__cases-item"
             >
               <div
-                style="background-color:${
-                  background - color
-                };color:${textColor}"
+                style="background-color:${backgroundColor};color:${textColor}"
                 class="w-layout-vflex solution-details__cases-header"
               >
                 <h6>${caseStudy["Case study title"]}</h6>
