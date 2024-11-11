@@ -243,6 +243,68 @@ function Viz() {
     });
   }
 
+  function showDetailCases(solutionId, categoryName) {
+    console.log("show detail cases", solutionId, categoryName);
+    d3.csv(`${ASSET_PATH}/data/casestudies-data.csv`).then((caseData) => {
+      // find all quotes for the solution, depending on the solution id
+      const solutionCases = caseData.filter(
+        (d) => d["Solution ID"] === solutionId
+      );
+      console.log("solutionCases", solutionCases);
+
+      const colorName = categoryColorsWithNames[categoryName.toLowerCase()];
+      const transparentColor = categoryColors[`${colorName}transparent`];
+      const outerTextColor = categoryColors[`${colorName}deep`];
+      const backgroundColor = "#f5f5f5";
+      const textColor = "black";
+
+      const casesContentHtml = solutionCases
+        .map((caseStudy) => {
+          return `<div
+              style="border-color:${backgroundColor}"
+              class="w-layout-vflex solution-details__cases-item"
+            >
+              <div
+                style="background-color:${
+                  background - color
+                };color:${textColor}"
+                class="w-layout-vflex solution-details__cases-header"
+              >
+                <h6>${caseStudy["Case study title"]}</h6>
+              </div>
+              <div class="w-layout-vflex solution-details__cases-content">
+                <p>
+                  ${caseStudy["Case study description"]}
+                </p>
+                <a
+                  style="background-color:${transparentColor}"
+                  href="${caseStudy["Case study link"]}"
+                  class="solution-details__cases-btn w-inline-block"
+                  ><div class="p-small">Read more</div>
+                  <div class="solution-details__resources-caret w-embed">
+                    <svg
+                      width="8"
+                      height="12"
+                      viewBox="0 0 8 12"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M1 1.5L6 7L1 12.5" stroke="#202124" stroke-width="2"></path>
+                    </svg></div
+                ></a>
+              </div>
+            </div>`;
+        })
+        .join("");
+      console.log("casesContentHtml", casesContentHtml);
+
+      const casesContainer = document.querySelector(
+        `.solution-details__group[solution-id="${solutionId}"] .solution-details__cases-list`
+      );
+      casesContainer.innerHTML = casesContentHtml;
+    });
+  }
+
   // interaction with detail view coded in Webflow
   function handlePetalClick(item) {
     console.log("handlePetalClick", item);
@@ -255,6 +317,9 @@ function Viz() {
 
     // build up quote panel manually due to Webflow restrictions
     showDetailQuotes(item["Solution ID"], item["Category"]);
+
+    // build up case study panel manually due to Webflow restrictions
+    showDetailCases(item["Solution ID"], item["Category"]);
 
     // show the solution details modal
     const solutionsModal = document.getElementById("solution-details");
@@ -328,6 +393,12 @@ function Viz() {
 
         // show the quotes for the solution
         showDetailQuotes(
+          navItem.getAttribute("solution-id"),
+          navItem.getAttribute("solution-category")
+        );
+
+        // show the case studies for the solution
+        showDetailCases(
           navItem.getAttribute("solution-id"),
           navItem.getAttribute("solution-category")
         );
