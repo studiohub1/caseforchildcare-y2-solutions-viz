@@ -44,8 +44,6 @@ function getArcForTextPlacement(angle, arcDefault, arcReversed) {
 function Viz() {
   // state
   const [data, setData] = useState([]);
-  const [resourcesData, setResourcesData] = useState([]);
-  const [quotesData, setQuotesData] = useState([]);
   const [categories, setCategories] = useState([]);
   const [hoveredItem, setHoveredItem] = useState(null);
   const [isInView, setIsInView] = useState(false);
@@ -92,15 +90,6 @@ function Viz() {
       setCategories(uniqueCategories);
 
       fixDetailViewNavItems(loadedData);
-    });
-
-    d3.csv(`${ASSET_PATH}/data/resources-data.csv`).then((loadedData) => {
-      console.log("resources", loadedData);
-      setResourcesData(loadedData);
-    });
-    d3.csv(`${ASSET_PATH}/data/quotes-data.csv`).then((loadedData) => {
-      console.log("quotes", loadedData);
-      setQuotesData(loadedData);
     });
   }, []);
 
@@ -149,25 +138,30 @@ function Viz() {
 
   function showDetailResources(solutionId) {
     console.log("show detail resources", solutionId);
-    // find all resources for the solution, depending on the solution id
-    const solutionResources = resourcesData.filter(
-      (d) => d["Solution ID"] === solutionId
-    );
-    console.log("resourcesData", resourcesData);
-    console.log("solutionResources", solutionResources);
 
-    const backgroundColor = "#f5f5f5";
-    const resourceContentHtml = solutionResources
-      .map((resource) => {
-        return `<a href="${resource["Resource link"]}" style="border-color:${backgroundColor}" class="solution-details__resources-item"><div class="solution-details__resources-item__title-row w-layout-hflex"><div class="h-s__medium">${resource["Resource title"]}</div><div class="solution-details__resources-caret w-embed"><svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1.5L6 7L1 12.5" stroke="#202124" stroke-width="2"></path></svg></div></div><p>${resource["Resource description"]}</p></a>`;
-      })
-      .join("");
-    console.log("resourceContentHtml", resourceContentHtml);
+    d3.csv(`${ASSET_PATH}/data/resources-data.csv`).then((resourcesData) => {
+      console.log("resources data loaded", resourcesData);
 
-    const resourcesContainer = document.querySelector(
-      `.solution-details__group[solution-id="${solutionId}"] .solution-details__resources-list`
-    );
-    resourcesContainer.innerHTML = resourceContentHtml;
+      // find all resources for the solution, depending on the solution id
+      const solutionResources = resourcesData.filter(
+        (d) => d["Solution ID"] === solutionId
+      );
+      console.log("resourcesData", resourcesData);
+      console.log("solutionResources", solutionResources);
+
+      const backgroundColor = "#f5f5f5";
+      const resourceContentHtml = solutionResources
+        .map((resource) => {
+          return `<a href="${resource["Resource link"]}" style="border-color:${backgroundColor}" class="solution-details__resources-item"><div class="solution-details__resources-item__title-row w-layout-hflex"><div class="h-s__medium">${resource["Resource title"]}</div><div class="solution-details__resources-caret w-embed"><svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1.5L6 7L1 12.5" stroke="#202124" stroke-width="2"></path></svg></div></div><p>${resource["Resource description"]}</p></a>`;
+        })
+        .join("");
+      console.log("resourceContentHtml", resourceContentHtml);
+
+      const resourcesContainer = document.querySelector(
+        `.solution-details__group[solution-id="${solutionId}"] .solution-details__resources-list`
+      );
+      resourcesContainer.innerHTML = resourceContentHtml;
+    });
   }
 
   // interaction with detail view coded in Webflow
