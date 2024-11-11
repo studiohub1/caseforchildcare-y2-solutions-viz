@@ -53,21 +53,27 @@ const categoryColorsWithNames = {
 const categoryColors = {
   violet: "#d6b9ff",
   violetdeep: "#6a3daa",
+  violettransparent: "rgba(214, 185, 255, 0.25)",
 
   coral: "#e0594f",
   coraldeep: "#b63b32",
+  coraltransparent: "rgba(224, 89, 79, 0.18)",
 
   plum: "#733250",
   plumdeep: "#5d1e3b",
+  plumtransparent: "rgba(115, 50, 80, 0.14)",
 
   green: "#99d68f",
   greendeep: "#3d6537",
+  greentransparent: "rgba(153, 214, 143, 0.2)",
 
   tangerine: "#ff8a53",
   tangerinedeep: "#bc592a",
+  tangerinetransparent: "rgba(255, 138, 83, 0.2)",
 
   teal: "#2b91ad",
   tealdeep: "#0b5d73",
+  tealtransparent: "rgba(43, 145, 173, 0.16)",
 };
 
 function Viz() {
@@ -149,6 +155,10 @@ function Viz() {
     .range([0, 2 * Math.PI])
     .padding(circlePadding);
 
+  /***
+   * DETAIL VIEW (partly handled within Webflow itself)
+   */
+
   // in detail view, show correct solution details
   function showSolutionDetailGroup(solutionId) {
     const detailGroupItems = document.querySelectorAll(
@@ -202,8 +212,9 @@ function Viz() {
       );
       console.log("solutionQuotes", solutionQuotes);
 
-      const transparentColor = "#f5f5f5";
-      const outerTextColor = "black";
+      const colorName = categoryColorsWithNames[categoryName.toLowerCase()];
+      const transparentColor = categoryColors[`${colorName}transparent`];
+      const outerTextColor = categoryColors[`${colorName}deep`];
 
       const quoteContentHtml = solutionQuotes
         .map((quote) => {
@@ -332,6 +343,9 @@ function Viz() {
       };
     });
   }
+  /**
+   * END DETAIL VIEW FUNCTIONS
+   */
 
   // spaced petal groups
   const petalGroups = categories.map((category, index) => {
