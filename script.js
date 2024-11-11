@@ -41,6 +41,35 @@ function getArcForTextPlacement(angle, arcDefault, arcReversed) {
   return newArc;
 }
 
+const categoryColorsWithNames = {
+  "direct care solutions": "coral",
+  "employee engagement & culture": "green",
+  "financial support & benefits": "plum",
+  "flexible work & leave policies": "violet",
+  "learning & assessment": "tangerine",
+  "policy, advocacy, & systemic change": "teal",
+};
+
+const categoryColors = {
+  violet: "#d6b9ff",
+  violetdeep: "#6a3daa",
+
+  coral: "#e0594f",
+  coraldeep: "#b63b32",
+
+  plum: "#733250",
+  plumdeep: "#5d1e3b",
+
+  green: "#99d68f",
+  greendeep: "#3d6537",
+
+  tangerine: "#ff8a53",
+  tangerinedeep: "#bc592a",
+
+  teal: "#2b91ad",
+  tealdeep: "#0b5d73",
+};
+
 function Viz() {
   // state
   const [data, setData] = useState([]);
@@ -136,8 +165,11 @@ function Viz() {
     }
   }
 
-  function showDetailResources(solutionId) {
-    console.log("show detail resources", solutionId);
+  function showDetailResources(
+    solutionId,
+    categoryName = "direct care solutions"
+  ) {
+    console.log("show detail resources", solutionId, categoryName);
 
     d3.csv(`${ASSET_PATH}/data/resources-data.csv`).then((resourcesData) => {
       console.log("resources data loaded", resourcesData);
@@ -149,10 +181,11 @@ function Viz() {
       console.log("resourcesData", resourcesData);
       console.log("solutionResources", solutionResources);
 
-      const backgroundColor = "#f5f5f5";
+      const colorName = categoryColorsWithNames[categoryName.toLowerCase()];
+
       const resourceContentHtml = solutionResources
         .map((resource) => {
-          return `<a href="${resource["Resource link"]}" style="border-color:${backgroundColor}" class="solution-details__resources-item"><div class="solution-details__resources-item__title-row w-layout-hflex"><div class="h-s__medium">${resource["Resource title"]}</div><div class="solution-details__resources-caret w-embed"><svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1.5L6 7L1 12.5" stroke="#202124" stroke-width="2"></path></svg></div></div><p>${resource["Resource description"]}</p></a>`;
+          return `<a href="${resource["Resource link"]}" style="border-color:${categoryColors[colorName]}" class="solution-details__resources-item"><div class="solution-details__resources-item__title-row w-layout-hflex"><div class="h-s__medium">${resource["Resource title"]}</div><div class="solution-details__resources-caret w-embed"><svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1.5L6 7L1 12.5" stroke="#202124" stroke-width="2"></path></svg></div></div><p>${resource["Resource description"]}</p></a>`;
         })
         .join("");
       console.log("resourceContentHtml", resourceContentHtml);
@@ -172,7 +205,7 @@ function Viz() {
     showSolutionDetailGroup(item["Solution ID"]);
 
     // build up resource panel manually due to Webflow restrictions
-    showDetailResources(item["Solution ID"]);
+    showDetailResources(item["Solution ID"], item["Category"]);
 
     // show the solution details modal
     const solutionsModal = document.getElementById("solution-details");
@@ -192,35 +225,6 @@ function Viz() {
       selectedNavItem.classList.add("selected");
     }
   }
-
-  const categoryColors = {
-    violet: "#d6b9ff",
-    violetdeep: "#6a3daa",
-
-    coral: "#e0594f",
-    coraldeep: "#b63b32",
-
-    plum: "#733250",
-    plumdeep: "#5d1e3b",
-
-    green: "#99d68f",
-    greendeep: "#3d6537",
-
-    tangerine: "#ff8a53",
-    tangerinedeep: "#bc592a",
-
-    teal: "#2b91ad",
-    tealdeep: "#0b5d73",
-  };
-
-  const categoryColorsWithNames = {
-    "direct care solutions": "coral",
-    "employee engagement & culture": "green",
-    "financial support & benefits": "plum",
-    "flexible work & leave policies": "violet",
-    "learning & assessment": "tangerine",
-    "policy, advocacy, & systemic change": "teal",
-  };
 
   // avoid issue of Webflow nested CMS issue that limits nested collection list items to 5
   function fixDetailViewNavItems(loadedData) {
@@ -243,7 +247,7 @@ function Viz() {
         const borderColor = categoryColors[colorName];
         const textColor = categoryColors[`${colorName}deep`];
         navGroup.innerHTML += `
-          <div class="solution-details__nav-item w-dyn-item" role="listitem" solution-id="${solution["Solution ID"]}" style="border-color:${borderColor}">
+          <div class="solution-details__nav-item w-dyn-item" role="listitem" solution-id="${solution["Solution ID"]}" solution-category="${solution["Category"]}" style="border-color:${borderColor}">
             <div class="p-small" style="color:${textColor}">${solution["Solution abbreviation"]}</div>
           </div>
         `;
@@ -268,7 +272,10 @@ function Viz() {
         showSolutionDetailGroup(navItem.getAttribute("solution-id"));
 
         // show the resources for the solution
-        showDetailResources(navItem.getAttribute("solution-id"));
+        showDetailResources(
+          navItem.getAttribute("solution-id"),
+          navItem.getAttribute("solution-category")
+        );
 
         // on tablet and down, hide the nav and show the details
         if (window.innerWidth <= 991) {
