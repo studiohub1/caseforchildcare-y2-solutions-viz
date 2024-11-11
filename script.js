@@ -10,10 +10,8 @@ import htm from "https://esm.sh/htm";
 const ENV = "production"; // development or production
 let ASSET_PATH = "";
 if (ENV === "development") {
-  console.log("Solutions Viz - Development mode");
   ASSET_PATH = "./assets";
 } else {
-  console.log("Solutions Viz - Production mode");
   ASSET_PATH =
     "https://datacult.github.io/caseforchildcare-y2-solutions-viz/assets";
 }
@@ -304,8 +302,6 @@ function Viz() {
 
   // interaction with detail view coded in Webflow
   function handlePetalClick(item) {
-    console.log("handlePetalClick", item);
-
     // in detail view, show correct solution details (on click in the petal)
     showSolutionDetailGroup(item["Solution ID"]);
 
@@ -339,7 +335,6 @@ function Viz() {
 
   // avoid issue of Webflow nested CMS issue that limits nested collection list items to 5
   function fixDetailViewNavItems(loadedData) {
-    console.log("fixDetailViewNavItems");
     const detailNavGroups = document.querySelectorAll(
       ".solution-details__nav-group"
     );
@@ -370,9 +365,7 @@ function Viz() {
       ".solution-details__nav-item"
     );
     detailNavItems.forEach((navItem) => {
-      console.log("add onclick handlers to nav items", navItem);
       navItem.onclick = function () {
-        console.log("nav item clicked", navItem);
         // have the correct nav item selected
         detailNavItems.forEach((navItem) => {
           navItem.classList.remove("selected");
