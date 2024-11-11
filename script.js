@@ -7,7 +7,7 @@ import { useState, useEffect, useRef } from "https://esm.sh/preact/hooks";
 import htm from "https://esm.sh/htm";
 
 // set asset path based on environment
-const ENV = "production"; // development or production
+const ENV = "development"; // development or production
 let ASSET_PATH = "";
 if (ENV === "development") {
   console.log("Solutions Viz - Development mode");
@@ -44,6 +44,7 @@ function getArcForTextPlacement(angle, arcDefault, arcReversed) {
 function Viz() {
   // state
   const [data, setData] = useState([]);
+  const [resourcesData, setResourcesData] = useState([]);
   const [categories, setCategories] = useState([]);
   const [hoveredItem, setHoveredItem] = useState(null);
   const [isInView, setIsInView] = useState(false);
@@ -91,6 +92,11 @@ function Viz() {
 
       fixDetailViewNavItems(loadedData);
     });
+
+    d3.csv(`${ASSET_PATH}/data/resources-data.csv`).then((loadedData) => {
+      console.log("resources", loadedData);
+      setResourcesData(loadedData);
+    });
   }, []);
 
   // Intersection Observer to check if Viz is in view
@@ -136,9 +142,34 @@ function Viz() {
     }
   }
 
+  function showDetailRessources(item) {
+    console.log("show detail resources", item);
+    // find all resources for the solution, depending on the solution id
+    const solutionResources = resourcesData.filter(
+      (d) => d["Solution ID"] === item["Solution ID"]
+    );
+    console.log("solutionResources", solutionResources);
+
+    const backgroundColor = "#f5f5f5";
+    const resourceContentHtml = solutionResources
+      .map((resource) => {
+        return `<a href="${resource["Resource link"]}" style="border-color:${backgroundColor}" class="solution-details__resources-item"><div class="solution-details__resources-item__title-row"><div class="h-s__medium">${resource["Resource title"]}</div><div class="solution-details__resources-caret w-embed"><svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1.5L6 7L1 12.5" stroke="#202124" stroke-width="2"></path></svg></div></div><p>${resource["Resource description"]}</p></a>`;
+      })
+      .join("");
+    console.log("resourceContentHtml", resourceContentHtml);
+
+    const resourcesContainer = document.querySelector(
+      `.solution-details__group[solution-id="${item["Solution ID"]}"] .solution-details__resources-list`
+    );
+    resourcesContainer.innerHTML = resourceContentHtml;
+  }
+
   // interaction with detail view coded in Webflow
   function handlePetalClick(item) {
     console.log("handlePetalClick", item);
+
+    showDetailRessources(item);
+
     // show the solution details modal
     const solutionsModal = document.getElementById("solution-details");
     solutionsModal.style.display = "flex";
