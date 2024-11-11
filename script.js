@@ -254,7 +254,7 @@ function Viz() {
 
       const colorName = categoryColorsWithNames[categoryName.toLowerCase()];
       const transparentColor = categoryColors[`${colorName}transparent`];
-      const backgroundColor = "#f5f5f5";
+      const backgroundColor = categoryColors[colorName];
       const textColor = "black";
 
       const casesContentHtml = solutionCases
@@ -293,10 +293,20 @@ function Viz() {
             </div>`;
         })
         .join("");
+
+      // add headline for case studies
+      if (solutionCases.length > 0) {
+        casesContentHtml = `
+          <h5 class="h-m__medium">Case studies</h5>
+          <div class="w-layout-vflex solution-details__cases-list">
+            ${casesContentHtml}
+          </div>
+        `;
+      }
       console.log("casesContentHtml", casesContentHtml);
 
       const casesContainer = document.querySelector(
-        `.solution-details__group[solution-id="${solutionId}"] .solution-details__cases-list`
+        `.solution-details__group[solution-id="${solutionId}"] .solution-details__cases-wrapper`
       );
       casesContainer.innerHTML = casesContentHtml;
     });
