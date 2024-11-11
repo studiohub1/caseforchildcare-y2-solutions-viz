@@ -193,7 +193,7 @@ function Viz() {
       const colorName = categoryColorsWithNames[categoryName.toLowerCase()];
       const resourceContentHtml = solutionResources
         .map((resource) => {
-          return `<a href="${resource["Resource link"]}" style="border-color:${categoryColors[colorName]}" class="solution-details__resources-item"><div class="solution-details__resources-item__title-row w-layout-hflex"><div class="h-s__medium">${resource["Resource title"]}</div><div class="solution-details__resources-caret w-embed"><svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1.5L6 7L1 12.5" stroke="#202124" stroke-width="2"></path></svg></div></div><p>${resource["Resource description"]}</p></a>`;
+          return `<a href="${resource["Resource link"]}" target="_blank" style="border-color:${categoryColors[colorName]}" class="solution-details__resources-item"><div class="solution-details__resources-item__title-row w-layout-hflex"><div class="h-s__medium">${resource["Resource title"]}</div><div class="solution-details__resources-caret w-embed"><svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1.5L6 7L1 12.5" stroke="#202124" stroke-width="2"></path></svg></div></div><p>${resource["Resource description"]}</p></a>`;
         })
         .join("");
       const resourcesContainer = document.querySelector(
@@ -267,6 +267,7 @@ function Viz() {
                 <a
                   style="background-color:${transparentColor}"
                   href="${caseStudy["Case study link"]}"
+                  target="_blank"
                   class="solution-details__cases-btn w-inline-block"
                   ><div class="p-small">Read more</div>
                   <div class="solution-details__resources-caret w-embed">
