@@ -226,7 +226,7 @@ function Viz() {
       console.log("quoteContentHtml", quoteContentHtml);
 
       const quotesContainer = document.querySelector(
-        `.solution-details__group[solution-id="${solutionId}"] solution-details__quotes-list`
+        `.solution-details__group[solution-id="${solutionId}"] .solution-details__quotes-list`
       );
       quotesContainer.innerHTML = quoteContentHtml;
     });
