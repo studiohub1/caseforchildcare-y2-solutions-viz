@@ -172,17 +172,13 @@ function Viz() {
     console.log("show detail resources", solutionId, categoryName);
 
     d3.csv(`${ASSET_PATH}/data/resources-data.csv`).then((resourcesData) => {
-      console.log("resources data loaded", resourcesData);
-
       // find all resources for the solution, depending on the solution id
       const solutionResources = resourcesData.filter(
         (d) => d["Solution ID"] === solutionId
       );
-      console.log("resourcesData", resourcesData);
       console.log("solutionResources", solutionResources);
 
       const colorName = categoryColorsWithNames[categoryName.toLowerCase()];
-
       const resourceContentHtml = solutionResources
         .map((resource) => {
           return `<a href="${resource["Resource link"]}" style="border-color:${categoryColors[colorName]}" class="solution-details__resources-item"><div class="solution-details__resources-item__title-row w-layout-hflex"><div class="h-s__medium">${resource["Resource title"]}</div><div class="solution-details__resources-caret w-embed"><svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1.5L6 7L1 12.5" stroke="#202124" stroke-width="2"></path></svg></div></div><p>${resource["Resource description"]}</p></a>`;
@@ -197,6 +193,45 @@ function Viz() {
     });
   }
 
+  function showDetailQuotes(solutionId, categoryName) {
+    console.log("show detail quotes", solutionId, categoryName);
+    d3.csv(`${ASSET_PATH}/data/quotes-data.csv`).then((quotesData) => {
+      // find all quotes for the solution, depending on the solution id
+      const solutionQuotes = quotesData.filter(
+        (d) => d["Solution ID"] === solutionId
+      );
+      console.log("solutionQuotes", solutionQuotes);
+
+      const transparentColor = "#f5f5f5";
+      const outerTextColor = "black";
+
+      const quoteContentHtml = solutionQuotes
+        .map((quote) => {
+          return `<div
+              style="background-color:${transparentColor};color:${outerTextColor}"
+              class="w-layout-vflex solution-details__quotes-item"
+            >
+              <p class="h-s__medium-long">
+                ${quote["Quote"]}
+              </p>
+              <div class="w-layout-vflex solution-details__quotes-author">
+                <div class="h-s__medium">${quote["Author name"]}</div>
+                <p class="p-small">
+                  ${quote["Author title"]}
+                </p>
+              </div>
+            </div>`;
+        })
+        .join("");
+      console.log("quoteContentHtml", quoteContentHtml);
+
+      const quotesContainer = document.querySelector(
+        `.solution-details__group[solution-id="${solutionId}"] solution-details__quotes-list`
+      );
+      quotesContainer.innerHTML = quoteContentHtml;
+    });
+  }
+
   // interaction with detail view coded in Webflow
   function handlePetalClick(item) {
     console.log("handlePetalClick", item);
@@ -206,6 +241,9 @@ function Viz() {
 
     // build up resource panel manually due to Webflow restrictions
     showDetailResources(item["Solution ID"], item["Category"]);
+
+    // build up quote panel manually due to Webflow restrictions
+    showDetailQuotes(item["Solution ID"], item["Category"]);
 
     // show the solution details modal
     const solutionsModal = document.getElementById("solution-details");
@@ -273,6 +311,12 @@ function Viz() {
 
         // show the resources for the solution
         showDetailResources(
+          navItem.getAttribute("solution-id"),
+          navItem.getAttribute("solution-category")
+        );
+
+        // show the quotes for the solution
+        showDetailQuotes(
           navItem.getAttribute("solution-id"),
           navItem.getAttribute("solution-category")
         );
