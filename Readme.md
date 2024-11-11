@@ -12,7 +12,7 @@
 - Go into `style.css` and change the hard-coded category names in data-category selectors
 - If you want to adjust the CSS variables, change the CSS variable settings at the top of that stylesheet
 
-- There is no hard coded category naming logic in the `script.js` file
+- There is a hard coded category naming logic in the `detailView.js` file, so make sure to adjust the category name there as well
 - Illustrations are named exactly as the category, so make sure your updated categories have a corresponding illustration svg file in the folder `/assets/illustrations`
 
 ## Exporting SVG

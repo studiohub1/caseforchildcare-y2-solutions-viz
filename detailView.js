@@ -12,10 +12,10 @@ const categoryColorsWithNames = {
 };
 
 const categoryColors = {
-  violet: "#d6b9ff",
-  violetdeep: "#6a3daa",
-  violettransparent: "rgba(214, 185, 255, 0.25)",
-  violettext: "#202124",
+  violet: "#d6b9ff", // background color
+  violetdeep: "#6a3daa", // text color for outer elements
+  violettransparent: "rgba(214, 185, 255, 0.25)", // transparent color
+  violettext: "#202124", // black or white text color
 
   coral: "#e0594f",
   coraldeep: "#b63b32",
