@@ -54,26 +54,32 @@ const categoryColors = {
   violet: "#d6b9ff",
   violetdeep: "#6a3daa",
   violettransparent: "rgba(214, 185, 255, 0.25)",
+  violettext: "#202124",
 
   coral: "#e0594f",
   coraldeep: "#b63b32",
   coraltransparent: "rgba(224, 89, 79, 0.18)",
+  coraltext: "#fff",
 
   plum: "#733250",
   plumdeep: "#5d1e3b",
   plumtransparent: "rgba(115, 50, 80, 0.14)",
+  plumtext: "#fff",
 
   green: "#99d68f",
   greendeep: "#3d6537",
   greentransparent: "rgba(153, 214, 143, 0.2)",
+  greentext: "#202124",
 
   tangerine: "#ff8a53",
   tangerinedeep: "#bc592a",
   tangerinetransparent: "rgba(255, 138, 83, 0.2)",
+  tangerinetext: "#202124",
 
   teal: "#2b91ad",
   tealdeep: "#0b5d73",
   tealtransparent: "rgba(43, 145, 173, 0.16)",
+  tealtext: "#fff",
 };
 
 function Viz() {
@@ -179,23 +185,17 @@ function Viz() {
     solutionId,
     categoryName = "direct care solutions"
   ) {
-    console.log("show detail resources", solutionId, categoryName);
-
     d3.csv(`${ASSET_PATH}/data/resources-data.csv`).then((resourcesData) => {
       // find all resources for the solution, depending on the solution id
       const solutionResources = resourcesData.filter(
         (d) => d["Solution ID"] === solutionId
       );
-      console.log("solutionResources", solutionResources);
-
       const colorName = categoryColorsWithNames[categoryName.toLowerCase()];
       const resourceContentHtml = solutionResources
         .map((resource) => {
           return `<a href="${resource["Resource link"]}" style="border-color:${categoryColors[colorName]}" class="solution-details__resources-item"><div class="solution-details__resources-item__title-row w-layout-hflex"><div class="h-s__medium">${resource["Resource title"]}</div><div class="solution-details__resources-caret w-embed"><svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1.5L6 7L1 12.5" stroke="#202124" stroke-width="2"></path></svg></div></div><p>${resource["Resource description"]}</p></a>`;
         })
         .join("");
-      console.log("resourceContentHtml", resourceContentHtml);
-
       const resourcesContainer = document.querySelector(
         `.solution-details__group[solution-id="${solutionId}"] .solution-details__resources-list`
       );
@@ -204,14 +204,11 @@ function Viz() {
   }
 
   function showDetailQuotes(solutionId, categoryName) {
-    console.log("show detail quotes", solutionId, categoryName);
     d3.csv(`${ASSET_PATH}/data/quotes-data.csv`).then((quotesData) => {
       // find all quotes for the solution, depending on the solution id
       const solutionQuotes = quotesData.filter(
         (d) => d["Solution ID"] === solutionId
       );
-      console.log("solutionQuotes", solutionQuotes);
-
       const colorName = categoryColorsWithNames[categoryName.toLowerCase()];
       const transparentColor = categoryColors[`${colorName}transparent`];
       const outerTextColor = categoryColors[`${colorName}deep`];
@@ -234,8 +231,6 @@ function Viz() {
             </div>`;
         })
         .join("");
-      console.log("quoteContentHtml", quoteContentHtml);
-
       const quotesContainer = document.querySelector(
         `.solution-details__group[solution-id="${solutionId}"] .solution-details__quotes-list`
       );
@@ -244,18 +239,14 @@ function Viz() {
   }
 
   function showDetailCases(solutionId, categoryName) {
-    console.log("show detail cases", solutionId, categoryName);
     d3.csv(`${ASSET_PATH}/data/casestudies-data.csv`).then((caseData) => {
-      // find all quotes for the solution, depending on the solution id
       const solutionCases = caseData.filter(
         (d) => d["Solution ID"] === solutionId
       );
-      console.log("solutionCases", solutionCases);
-
       const colorName = categoryColorsWithNames[categoryName.toLowerCase()];
       const transparentColor = categoryColors[`${colorName}transparent`];
       const backgroundColor = categoryColors[colorName];
-      const textColor = "black";
+      const textColor = categoryColors[`${colorName}text`];
 
       let casesContentHtml = solutionCases
         .map((caseStudy) => {
@@ -303,8 +294,6 @@ function Viz() {
           </div>
         `;
       }
-      console.log("casesContentHtml", casesContentHtml);
-
       const casesContainer = document.querySelector(
         `.solution-details__group[solution-id="${solutionId}"] .solution-details__cases-wrapper`
       );
