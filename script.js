@@ -121,9 +121,9 @@ function Viz() {
 
   // solution label ("filter") content
   const LABELS = {
-    "I want to innovate": "icon_star.svg",
-    "The most critical aspects for frontline workers": "icon_circle.svg",
-    "I'm just getting started": "icon_triangle.svg",
+    "I want to innovate": "icon_star.png",
+    "The most critical aspects for frontline workers": "icon_circle.png",
+    "I'm just getting started": "icon_triangle.png",
   };
 
   // spaced petal groups
@@ -190,8 +190,6 @@ function Viz() {
         petalFilterIconTranslateX *= -1;
         petalIconAngleBack += 180;
       }
-
-      console.log("filter", item["Filter category"]);
 
       return html`
         <g
