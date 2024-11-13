@@ -80,20 +80,9 @@ export function handlePetalClick(item, ASSET_PATH) {
     document.querySelector(".solution-details__nav-item.selected") &&
     window.innerWidth > 991
   ) {
-    document
-      .querySelector(".solution-details__nav-item.selected")
-      .scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-
-    // but scroll right side to the top
-    document
-      .querySelector(".solution-details__description-card__header")
-      .scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
+    var target = document.querySelector(".solution-details__nav-item.selected");
+    target.parentNode.scrollTop =
+      target.offsetTop - target.parentNode.offsetTop;
   }
 }
 
