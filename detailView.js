@@ -80,12 +80,26 @@ export function handlePetalClick(item, ASSET_PATH) {
     document.querySelector(".solution-details__nav-item.selected") &&
     window.innerWidth > 991
   ) {
-    document
-      .querySelector(".solution-details__nav-item.selected")
-      .scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
+    // document
+    //   .querySelector(".solution-details__nav-item.selected")
+    //   .scrollIntoView({
+    //     behavior: "smooth",
+    //     block: "center",
+    //   });
+
+    const container = document.querySelector(".solution-details__nav");
+    const selectedItem = container.querySelector(
+      ".solution-details__nav-item.selected"
+    );
+
+    container.scroll({
+      top:
+        selectedItem.offsetTop -
+        container.offsetTop -
+        container.clientHeight / 2 +
+        selectedItem.clientHeight / 2,
+      behavior: "smooth",
+    });
   }
 }
 
