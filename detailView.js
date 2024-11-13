@@ -74,6 +74,18 @@ export function handlePetalClick(item, ASSET_PATH) {
   if (selectedNavItem) {
     selectedNavItem.classList.add("selected");
   }
+
+  // scroll to selected nav item
+  console.log(
+    "find selected nav item",
+    document.querySelector(".solution-details__nav-item.selected")
+  );
+  document
+    .querySelector(".solution-details__nav-item.selected")
+    .scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
 }
 
 // in detail view, show correct solution details
