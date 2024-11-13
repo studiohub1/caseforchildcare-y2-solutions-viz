@@ -8,7 +8,7 @@ import htm from "https://esm.sh/htm";
 import { handlePetalClick, fixDetailViewNavItems } from "./detailView.js";
 
 // set asset path based on environment
-const ENV = "production"; // development or production
+const ENV = "development"; // development or production
 let ASSET_PATH = "";
 if (ENV === "development") {
   ASSET_PATH = "./assets";
@@ -119,6 +119,13 @@ function Viz() {
     .range([0, 2 * Math.PI])
     .padding(circlePadding);
 
+  // solution label ("filter") content
+  const LABELS = {
+    "I want to innovate": "icon_star.svg",
+    "The most critical aspects for frontline workers": "icon_circle.svg",
+    "I'm just getting started": "icon_triangle.svg",
+  };
+
   // spaced petal groups
   const petalGroups = categories.map((category, index) => {
     const categoryData = data.filter((d) => d["Category"] === category);
@@ -173,14 +180,18 @@ function Viz() {
       let petalTextTranslateX =
         innerRadius + (outerRadiusPetals - innerRadius) / 2;
       let petalButtonTranslateX = innerRadius + 20;
+      let petalFilterIconTranslateX = outerRadiusPetals - 30;
 
       // flip text if it's on the lower half of the circle
       if (radiansToDegrees(groupScale(petalGroupItemIndex)) > 180) {
         petalTextAngle += 180;
         petalTextTranslateX *= -1;
         petalButtonTranslateX *= -1;
+        petalFilterIconTranslateX *= -1;
         petalIconAngleBack += 180;
       }
+
+      console.log("filter", item["Filter category"]);
 
       return html`
         <g
@@ -212,6 +223,21 @@ function Viz() {
           >
             ${item["Solution abbreviation"]}
           </text>
+          ${item["Filter category"] !== ""
+            ? html` <g
+                transform="rotate(${petalTextAngle}) translate(${petalFilterIconTranslateX},0) rotate(${petalIconAngleBack}) "
+              >
+                <image
+                  href="${ASSET_PATH}/illustrations/${LABELS[
+                    item["Filter category"]
+                  ]}"
+                  alt="Category for solution"
+                  height="25px"
+                  width="25px"
+                  transform="translate(-12,-12)"
+                />
+              </g>`
+            : null}
           <g
             class="detail-button-group ${hoveredItem
               ? hoveredItem === item
