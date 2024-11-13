@@ -80,9 +80,12 @@ export function handlePetalClick(item, ASSET_PATH) {
     document.querySelector(".solution-details__nav-item.selected") &&
     window.innerWidth > 991
   ) {
-    var target = document.querySelector(".solution-details__nav-item.selected");
-    target.parentNode.scrollTop =
-      target.offsetTop - target.parentNode.offsetTop;
+    document
+      .querySelector(".solution-details__nav-item.selected")
+      .scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
   }
 }
 
