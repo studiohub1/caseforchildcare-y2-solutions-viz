@@ -8,7 +8,7 @@ import htm from "https://esm.sh/htm";
 import { handlePetalClick, fixDetailViewNavItems } from "./detailView.js";
 
 // set asset path based on environment
-const ENV = "development"; // development or production
+const ENV = "production"; // development or production
 let ASSET_PATH = "";
 if (ENV === "development") {
   ASSET_PATH = "./assets";
