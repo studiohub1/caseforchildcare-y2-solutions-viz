@@ -235,8 +235,19 @@ export function fixDetailViewNavItems(loadedData, ASSET_PATH, LABELS_FILTER) {
       const textColor = categoryColors[`${colorName}deep`];
 
       let labelIconHtml = "";
-      if (LABELS_FILTER[solution["Filter category"]]) {
-        labelIconHtml = starIconSvg();
+      if (solution["Filter category"] !== "") {
+        switch (solution["Filter category"]) {
+          case "star":
+            labelIconHtml = starIconSvg();
+            break;
+          case "triangle":
+            labelIconHtml = triangleIconSvg();
+            break;
+          case "circle":
+            labelIconHtml = circleIconSvg();
+            break;
+          default:
+        }
       }
 
       navGroup.innerHTML += `
@@ -309,4 +320,24 @@ function starIconSvg() {
     </defs>
   </svg>
 `;
+}
+
+function triangleIconSvg() {
+  return `<svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g id="icon_triangle" clip-path="url(#clip0_6645_3545)">
+    <path id="Polygon 13" d="M12.5 3.26615L23.0068 20.837L1.99317 20.837L12.5 3.26615Z" stroke="currentColor" stroke-width="2.32604"/>
+    </g>
+    <defs>
+    <clipPath id="clip0_6645_3545">
+    <rect width="25" height="25" fill="white"/>
+    </clipPath>
+    </defs>
+  </svg>
+  `;
+}
+
+function circleIconSvg() {
+  return `<svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12.5" cy="12.5" r="10.337" stroke="currentColor" stroke-width="2.32604"/>
+  </svg>`;
 }
