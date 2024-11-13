@@ -234,8 +234,17 @@ export function fixDetailViewNavItems(loadedData, ASSET_PATH, LABELS_FILTER) {
       const borderColor = categoryColors[colorName];
       const textColor = categoryColors[`${colorName}deep`];
       navGroup.innerHTML += `
-          <div class="solution-details__nav-item w-dyn-item" role="listitem" solution-id="${solution["Solution ID"]}" solution-category="${solution["Category"]}" style="border-color:${borderColor}">
-            <div class="p-small" style="color:${textColor}">${solution["Solution abbreviation"]}</div>
+          <div class="solution-details__nav-item w-dyn-item" role="listitem" solution-id="${
+            solution["Solution ID"]
+          }" solution-category="${
+        solution["Category"]
+      }" style="border-color:${borderColor}">
+            <div class="p-small" style="color:${textColor}; display: flex;justify-content:space-between;align-items: center;">
+              <span>${solution["Solution abbreviation"]}</span>
+              <img src="${ASSET_PATH}/illustrations/${
+        LABELS[item["Filter category"]]
+      }.svg" height="20px" width="20px">
+            </div>
           </div>
         `;
     });
