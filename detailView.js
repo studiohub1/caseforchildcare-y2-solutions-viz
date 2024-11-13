@@ -86,6 +86,14 @@ export function handlePetalClick(item, ASSET_PATH) {
         behavior: "smooth",
         block: "center",
       });
+
+    // but scroll right side to the top
+    document
+      .querySelector(".solution-details__description-card__header")
+      .scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
   }
 }
 
