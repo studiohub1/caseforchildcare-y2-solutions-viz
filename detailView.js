@@ -235,7 +235,7 @@ export function fixDetailViewNavItems(loadedData, ASSET_PATH, LABELS_FILTER) {
       const textColor = categoryColors[`${colorName}deep`];
 
       let labelIconHtml = "";
-      if (solution["Filter category"] !== "") {
+      if (LABELS_FILTER[solution["Filter category"]]) {
         switch (solution["Filter category"]) {
           case "star":
             labelIconHtml = starIconSvg();
