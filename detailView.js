@@ -243,7 +243,7 @@ export function fixDetailViewNavItems(loadedData, ASSET_PATH, LABELS_FILTER) {
               <span>${solution["Solution abbreviation"]}</span>
               <img src="${ASSET_PATH}/illustrations/${
         LABELS[item["Filter category"]]
-      }.svg" height="20px" width="20px">
+      }.svg" height="20px" width="20px" />
             </div>
           </div>
         `;
