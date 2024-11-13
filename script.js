@@ -121,9 +121,9 @@ function Viz() {
 
   // solution label ("filter") content
   const LABELS = {
-    "I want to innovate": "icon_star",
-    "The most critical aspects for frontline workers": "icon_circle",
-    "I'm just getting started": "icon_triangle",
+    "I want to innovate": "star",
+    "The most critical aspects for frontline workers": "circle",
+    "I'm just getting started": "triangle",
   };
 
   // spaced petal groups
@@ -227,7 +227,7 @@ function Viz() {
                 class="filter-icon"
               >
                 <image
-                  href="${ASSET_PATH}/illustrations/${LABELS[
+                  href="${ASSET_PATH}/illustrations/icon_${LABELS[
                     item["Filter category"]
                   ]}_white.png"
                   alt="Category for solution"
