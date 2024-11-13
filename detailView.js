@@ -80,12 +80,17 @@ export function handlePetalClick(item, ASSET_PATH) {
     "find selected nav item",
     document.querySelector(".solution-details__nav-item.selected")
   );
-  document
-    .querySelector(".solution-details__nav-item.selected")
-    .scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-    });
+  if (
+    document.querySelector(".solution-details__nav-item.selected") &&
+    window.innerWidth > 991
+  ) {
+    document
+      .querySelector(".solution-details__nav-item.selected")
+      .scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+  }
 }
 
 // in detail view, show correct solution details
@@ -247,7 +252,9 @@ export function fixDetailViewNavItems(loadedData, ASSET_PATH, LABELS_FILTER) {
       const textColor = categoryColors[`${colorName}deep`];
 
       let labelIconHtml = "";
+      let hasLabelIcon = false;
       if (LABELS_FILTER[solution["Filter category"]]) {
+        hasLabelIcon = true;
         switch (LABELS_FILTER[solution["Filter category"]]) {
           case "star":
             labelIconHtml = starIconSvg();
@@ -263,7 +270,13 @@ export function fixDetailViewNavItems(loadedData, ASSET_PATH, LABELS_FILTER) {
       }
 
       navGroup.innerHTML += `
-          <div class="solution-details__nav-item w-dyn-item" role="listitem" solution-id="${solution["Solution ID"]}" solution-category="${solution["Category"]}" style="border-color:${borderColor}">
+          <div class="solution-details__nav-item w-dyn-item ${
+            hasLabelIcon ? "hasIcon" : ""
+          }" role="listitem" solution-id="${
+        solution["Solution ID"]
+      }" solution-category="${
+        solution["Category"]
+      }" style="border-color:${borderColor}">
             <div class="p-small" style="color:${textColor}; display: flex;justify-content:space-between;align-items: center;">
               <span>${solution["Solution abbreviation"]}</span>
               ${labelIconHtml}

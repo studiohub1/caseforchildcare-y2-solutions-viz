@@ -351,7 +351,7 @@ function Viz() {
             src="${ASSET_PATH}/illustrations/icon_triangle_black.png"
             alt="triangle icon"
           />
-          <span>I am just getting started</span>
+          <span>I'm just getting started</span>
         </p>
         <p class="legend__item">
           <img
