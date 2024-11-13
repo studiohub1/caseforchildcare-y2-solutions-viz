@@ -80,13 +80,6 @@ export function handlePetalClick(item, ASSET_PATH) {
     document.querySelector(".solution-details__nav-item.selected") &&
     window.innerWidth > 991
   ) {
-    // document
-    //   .querySelector(".solution-details__nav-item.selected")
-    //   .scrollIntoView({
-    //     behavior: "smooth",
-    //     block: "center",
-    //   });
-
     const container = document.querySelector(".solution-details__nav");
     const selectedItem = container.querySelector(
       ".solution-details__nav-item.selected"
@@ -277,6 +270,7 @@ export function fixDetailViewNavItems(loadedData, ASSET_PATH, LABELS_FILTER) {
             break;
           default:
         }
+        labelIconHtml = `<div style="width:16px;height:16px;">${labelIconHtml}</div>`;
       }
 
       navGroup.innerHTML += `
