@@ -232,9 +232,9 @@ function Viz() {
                     item["Filter category"]
                   ]}"
                   alt="Category for solution"
-                  height="25px"
-                  width="25px"
-                  transform="translate(-12,-12)"
+                  height="20px"
+                  width="20px"
+                  transform="translate(-10,-10)"
                 />
               </g>`
             : null}
