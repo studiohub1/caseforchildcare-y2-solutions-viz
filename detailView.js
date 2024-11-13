@@ -242,7 +242,7 @@ export function fixDetailViewNavItems(loadedData, ASSET_PATH, LABELS_FILTER) {
             <div class="p-small" style="color:${textColor}; display: flex;justify-content:space-between;align-items: center;">
               <span>${solution["Solution abbreviation"]}</span>
               <img src="${ASSET_PATH}/illustrations/${
-        LABELS[item["Filter category"]]
+        LABELS_FILTER[item["Filter category"]]
       }.svg" height="20px" width="20px" />
             </div>
           </div>
