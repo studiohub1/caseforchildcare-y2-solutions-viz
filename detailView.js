@@ -236,7 +236,7 @@ export function fixDetailViewNavItems(loadedData, ASSET_PATH, LABELS_FILTER) {
 
       let labelIconHtml = "";
       if (LABELS_FILTER[solution["Filter category"]]) {
-        switch (solution["Filter category"]) {
+        switch (LABELS_FILTER[solution["Filter category"]]) {
           case "star":
             labelIconHtml = starIconSvg();
             break;
