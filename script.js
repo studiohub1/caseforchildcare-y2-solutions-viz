@@ -88,7 +88,7 @@ function Viz() {
       );
       setCategories(uniqueCategories);
 
-      fixDetailViewNavItems(loadedData, ASSET_PATH);
+      fixDetailViewNavItems(loadedData, ASSET_PATH, LABELS);
     });
   }, []);
 
@@ -121,9 +121,9 @@ function Viz() {
 
   // solution label ("filter") content
   const LABELS = {
-    "I want to innovate": "icon_star_white.png",
-    "The most critical aspects for frontline workers": "icon_circle_white.png",
-    "I'm just getting started": "icon_triangle_white.png",
+    "I want to innovate": "icon_star",
+    "The most critical aspects for frontline workers": "icon_circle",
+    "I'm just getting started": "icon_triangle",
   };
 
   // spaced petal groups
@@ -223,12 +223,13 @@ function Viz() {
           </text>
           ${item["Filter category"] !== ""
             ? html` <g
-                transform="rotate(${petalTextAngle}) translate(${petalFilterIconTranslateX},0) rotate(${petalIconAngleBack}) "
+                transform="rotate(${petalTextAngle}) translate(${petalFilterIconTranslateX},0) rotate(${petalIconAngleBack})"
+                class="filter-icon"
               >
                 <image
                   href="${ASSET_PATH}/illustrations/${LABELS[
                     item["Filter category"]
-                  ]}"
+                  ]}_white.png"
                   alt="Category for solution"
                   height="20px"
                   width="20px"

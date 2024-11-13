@@ -47,11 +47,13 @@
 #solution-viz svg text.petal-text {
   transition: var(--transition-text);
 }
-#solution-viz svg.not-in-view text {
+#solution-viz svg.not-in-view text,
+#solution-viz svg.not-in-view .filter-icon {
   transition: var(--transition-text);
   opacity: 0;
 }
-#solution-viz svg.in-view text {
+#solution-viz svg.in-view text,
+#solution-viz svg.in-view .filter-icon {
   transition: var(--transition-text);
   opacity: 1;
 }
@@ -128,7 +130,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 8px 24px;
+  gap: 8px 12px;
   padding: 12px;
   width: 80%;
 }

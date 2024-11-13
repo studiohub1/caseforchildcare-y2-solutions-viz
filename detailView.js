@@ -215,7 +215,7 @@ function showDetailCases(solutionId, categoryName, ASSET_PATH) {
 }
 
 // avoid issue of Webflow nested CMS issue that limits nested collection list items to 5
-export function fixDetailViewNavItems(loadedData, ASSET_PATH) {
+export function fixDetailViewNavItems(loadedData, ASSET_PATH, LABELS_FILTER) {
   const detailNavGroups = document.querySelectorAll(
     ".solution-details__nav-group"
   );
