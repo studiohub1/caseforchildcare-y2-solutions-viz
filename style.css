@@ -56,11 +56,13 @@
   opacity: 1;
 }
 
+#solution-viz svg.not-in-view .innerContent__default .legend,
 #solution-viz svg.not-in-view .innerContent__default .subtitle,
 #solution-viz svg.not-in-view .innerContent__default .hover-image {
   transition: var(--transition-text);
   opacity: 0;
 }
+#solution-viz svg.in-view .innerContent__default .legend,
 #solution-viz svg.in-view .innerContent__default .subtitle,
 #solution-viz svg.in-view .innerContent__default .hover-image {
   transition: var(--transition-text);
@@ -120,6 +122,31 @@
   margin: 48px 0 0 0;
   max-width: 80%;
 }
+#solution-viz .innerContent .legend {
+  border-radius: 8px;
+  border: var(--text-sizing-16px, 1px) dashed #cdc9c8;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 24px;
+  padding: 12px;
+  width: 80%;
+}
+#solution-viz .innerContent .legend__item {
+  font-family: "VC Henrietta", sans-serif;
+  font-weight: 600;
+  line-height: 150%;
+  letter-spacing: 0.28px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+#solution-viz .innerContent .legend__item img {
+  height: 20px;
+  width: 20px;
+}
+
 #solution-viz .innerContent .subtitle {
   font-size: 16px;
   letter-spacing: 0.32px;

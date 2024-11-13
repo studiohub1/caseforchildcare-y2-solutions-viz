@@ -121,9 +121,9 @@ function Viz() {
 
   // solution label ("filter") content
   const LABELS = {
-    "I want to innovate": "icon_star.png",
-    "The most critical aspects for frontline workers": "icon_circle.png",
-    "I'm just getting started": "icon_triangle.png",
+    "I want to innovate": "icon_star_white.png",
+    "The most critical aspects for frontline workers": "icon_circle_white.png",
+    "I'm just getting started": "icon_triangle_white.png",
   };
 
   // spaced petal groups
@@ -344,6 +344,29 @@ function Viz() {
       xmlns="http://www.w3.org/1999/xhtml"
     >
       <p class="title">Childcare Solutions</p>
+      <div class="legend">
+        <p class="legend__item">
+          <img
+            src="${ASSET_PATH}/illustrations/icon_triangle_black.png"
+            alt="triangle icon"
+          />
+          <span>I am just getting started</span>
+        </p>
+        <p class="legend__item">
+          <img
+            src="${ASSET_PATH}/illustrations/icon_star_black.png"
+            alt="star icon"
+          />
+          <span>I want to innovate</span>
+        </p>
+        <p class="legend__item">
+          <img
+            src="${ASSET_PATH}/illustrations/icon_circle_black.png"
+            alt="circle icon"
+          />
+          <span>Critical aspects for frontline workers</span>
+        </p>
+      </div>
       <p class="subtitle">
         Hover on a solution to preview, click in to see details and resources.
       </p>
