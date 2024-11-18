@@ -415,6 +415,7 @@ function Viz() {
         viewBox="0 0 ${squareSize} ${squareSize}"
         xmlns="http://www.w3.org/2000/svg"
         transform="scale(${isInView ? 1 : 0.5})"
+        transform-origin="center top"
         class="${isInView ? "in-view" : "not-in-view"} ${IS_SAFARI
           ? "is-safari"
           : ""}"
@@ -459,7 +460,7 @@ function Page() {
 
 const vizContainerElement = document.getElementById("solution-viz");
 if (vizContainerElement) {
-  render(html`<${Viz} />`, vizContainerElement);
+  render(html`<${Page} />`, vizContainerElement);
 } else {
   console.error(
     "Could not find container element for solution viz with id 'solution-viz'"
