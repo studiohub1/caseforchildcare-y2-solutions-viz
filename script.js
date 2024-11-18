@@ -66,6 +66,8 @@ function Viz() {
   const spaceBetweenPetalsWithinGroup = 0.01;
   const cornerRadiusPetals = 15; // before 18
 
+  const IS_SAFARI = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
   // load data
   useEffect(() => {
     d3.csv(`${ASSET_PATH}/data/solutions-data.csv`).then((loadedData) => {
@@ -306,6 +308,17 @@ function Viz() {
       categoryArcTextReversed()
     );
 
+    let dy =
+      radiansToDegrees(startAngle) > 90 && radiansToDegrees(startAngle) < 270
+        ? -21
+        : 6;
+    if (IS_SAFARI) {
+      dy =
+        radiansToDegrees(startAngle) > 90 && radiansToDegrees(startAngle) < 270
+          ? -8
+          : 20;
+    }
+
     return html`
       <g
         class="category ${hoveredItem
@@ -320,14 +333,7 @@ function Viz() {
         <defs>
           <path d="${textArc}" id="category-path-${index}" fill="transparent" />
         </defs>
-        <text
-          class="cat-text"
-          dominant-baseline="hanging"
-          dy="${radiansToDegrees(startAngle) > 90 &&
-          radiansToDegrees(startAngle) < 270
-            ? -21
-            : 6}"
-        >
+        <text class="cat-text" dominant-baseline="hanging" dy="${dy}">
           <textPath
             href="#category-path-${index}"
             startOffset="50%"
@@ -403,8 +409,6 @@ function Viz() {
     ? innerContentHovered()
     : innerContentDefault;
 
-  const IS_SAFARI = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
   return html`
     <div ref=${vizRef}>
       <svg
@@ -455,7 +459,7 @@ function Page() {
 
 const vizContainerElement = document.getElementById("solution-viz");
 if (vizContainerElement) {
-  render(html`<${Page} />`, vizContainerElement);
+  render(html`<${Viz} />`, vizContainerElement);
 } else {
   console.error(
     "Could not find container element for solution viz with id 'solution-viz'"
