@@ -460,7 +460,7 @@ function Page() {
 
 const vizContainerElement = document.getElementById("solution-viz");
 if (vizContainerElement) {
-  render(html`<${Page} />`, vizContainerElement);
+  render(html`<${Viz} />`, vizContainerElement);
 } else {
   console.error(
     "Could not find container element for solution viz with id 'solution-viz'"
