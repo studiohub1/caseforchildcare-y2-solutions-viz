@@ -121,9 +121,9 @@ function Viz() {
 
   // solution label ("filter") content
   const LABELS = {
-    "I want to innovate": "star",
-    "The most critical aspects for frontline workers": "circle",
-    "I'm just getting started": "triangle",
+    "How can I innovate?": "star",
+    "How can I most support frontline workers?": "circle",
+    "How do I get started?": "triangle",
   };
 
   // spaced petal groups
@@ -351,21 +351,21 @@ function Viz() {
             src="${ASSET_PATH}/illustrations/icon_triangle_black.png"
             alt="triangle icon"
           />
-          <span>I'm just getting started</span>
+          <span>How do I get started?</span>
         </p>
         <p class="legend__item">
           <img
             src="${ASSET_PATH}/illustrations/icon_star_black.png"
             alt="star icon"
           />
-          <span>I want to innovate</span>
+          <span>How can I innovate?</span>
         </p>
         <p class="legend__item">
           <img
             src="${ASSET_PATH}/illustrations/icon_circle_black.png"
             alt="circle icon"
           />
-          <span>Critical aspects for frontline workers</span>
+          <span>How can I most support frontline workers?</span>
         </p>
       </div>
       <p class="subtitle">
