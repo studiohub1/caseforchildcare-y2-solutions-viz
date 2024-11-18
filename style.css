@@ -71,6 +71,13 @@
   opacity: 1;
 }
 
+#solution-viz svg.in-view.is-safari .innerContent__default .legend,
+#solution-viz svg.in-view.is-safari .innerContent__default .subtitle,
+#solution-viz svg.in-view.is-safari .innerContent__default .hover-image {
+  opacity: 1;
+  transition: none;
+}
+
 /***** petals ******/
 #solution-viz .petal text {
   font-size: 14px;
@@ -132,7 +139,7 @@
   justify-content: center;
   gap: 8px 12px;
   padding: 12px;
-  width: 80%;
+  width: 90%;
 }
 #solution-viz .innerContent .legend__item {
   font-family: "VC Henrietta", sans-serif;
