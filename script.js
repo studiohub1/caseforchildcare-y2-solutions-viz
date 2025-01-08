@@ -14,7 +14,7 @@ if (ENV === "development") {
   ASSET_PATH = "./assets";
 } else {
   ASSET_PATH =
-    "https://datacult.github.io/caseforchildcare-y2-solutions-viz/assets";
+    "https://studiohub1.github.io/caseforchildcare-y2-solutions-viz/assets";
 }
 
 const html = htm.bind(h);
